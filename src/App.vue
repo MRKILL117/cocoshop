@@ -43,12 +43,10 @@
 </template>
 
 <script>
-
 export default {
-  name: 'App',
-  components: {
-  },
-  data () {
+  name: "App",
+  components: {},
+  data() {
     return {
       search: "",
       sideMenu: false,

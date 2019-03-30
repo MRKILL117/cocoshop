@@ -5,9 +5,10 @@
         <v-card>
           <v-layout row wrap>
             <v-card-title primary-title>
-              <div class="headline">Inicio de sesion</div>
+              <div class="headline">Crear una cuenta</div>
             </v-card-title>
             <v-card-text>
+              <v-text-field name="Nick" label="Nick" box prepend-inner-icon="mood"></v-text-field>
               <v-text-field name="Correo" label="Correo" box prepend-inner-icon="mail"></v-text-field>
               <v-text-field
                 name="Contraseña"
@@ -19,7 +20,6 @@
             </v-card-text>
             <v-card-actions>
               <v-btn color="green" block>Registrarse</v-btn>
-              <v-btn color="light-blue" block>Entrar</v-btn>
             </v-card-actions>
           </v-layout>
         </v-card>

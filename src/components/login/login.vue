@@ -19,8 +19,8 @@
               ></v-text-field>
             </v-card-text>
             <v-card-actions>
-              <v-btn color="green" block>Registrarse</v-btn>
-              <v-btn color="light-blue" block>Entrar</v-btn>
+              <v-btn color="green" block @click="goToRoute('signin')">Registrarse</v-btn>
+              <v-btn color="light-blue" block @click="signIn">Entrar</v-btn>
             </v-card-actions>
           </v-layout>
         </v-card>
@@ -37,6 +37,14 @@ export default {
         username: "",
         password: ""
       }
+    }
+  },
+  methods: {
+    signIn(){
+      this.$store.dispatch("signIn", this.user)
+    },
+    goToRoute(route){
+      this.$router.push("/" + route)
     }
   },
   computed: {

@@ -5,11 +5,14 @@
         <v-card>
           <v-layout row wrap>
             <v-card-title primary-title>
-              <div class="headline">Crear una cuenta</div>
+              <div class="headline" >Crear una cuenta</div>
             </v-card-title>
             <v-card-text>
-              <v-text-field name="Nick" label="Nick" box prepend-inner-icon="mood" v-model="user.nick"></v-text-field>
+              <v-text-field name="Nombre" label="Nombre" box prepend-inner-icon="person" v-model="user.Nombre"></v-text-field>
+               <v-text-field name="Apellido" label="Apellido" box prepend-inner-icon="person" v-model="user.Apellido"></v-text-field>
               <v-text-field name="Correo" label="Correo" box prepend-inner-icon="mail" v-model="user.correo"></v-text-field>
+              <v-text-field name="Direccion" label="Direccion" box prepend-inner-icon="location_city" v-model="user.Direccion"></v-text-field>
+              <v-text-field name="Telefono" label="Telefono" box prepend-inner-icon="call" v-model="user.Nombre"></v-text-field>
               <v-text-field
                 name="Contraseña"
                 label="Contraseña"
@@ -35,7 +38,9 @@ export default {
     return {
       user: {
         correo: "",
-        nick: "",
+        Nombre: "",
+        Apellido: "",
+        Direccion: "",
         password: ""
       }
     };

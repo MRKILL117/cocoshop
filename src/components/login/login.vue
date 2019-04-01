@@ -8,8 +8,9 @@
               <div class="headline">Inicio de sesion</div>
             </v-card-title>
             <v-card-text>
-              <v-text-field name="Correo" label="Correo" box prepend-inner-icon="mail"></v-text-field>
+              <v-text-field name="Correo" label="Correo" box prepend-inner-icon="mail" v-model="user.usernme"></v-text-field>
               <v-text-field
+                v-model="user.password"
                 name="Contraseña"
                 label="Contraseña"
                 box
@@ -31,8 +32,15 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      user: {
+        username: "",
+        password: ""
+      }
+    }
   },
-  computed: {}
+  computed: {
+
+  }
 };
 </script>

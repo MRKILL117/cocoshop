@@ -8,7 +8,7 @@
         <v-spacer></v-spacer>
         <v-autocomplete class="mt-2" pl-1 background-color="white" placeholder="Search" prepend-inner-icon="search" v-model="search"></v-autocomplete>
         <v-btn @click="searchItem"><v-icon>search</v-icon></v-btn>
-        <v-btn color="success" @click="signIn">Sign In</v-btn>
+        <v-btn color="success" @click="signIn">Log In</v-btn>
       </v-layout>
     </v-toolbar>
 
@@ -50,18 +50,22 @@ export default {
       search: "",
       sideMenu: false,
       menuItems: [
-        { icon: 'home', title: 'Link A' },
-        { icon: 'info', title: 'Link B' },
-        { icon: 'warning', title: 'Link C' }
+        { icon: 'home', title: 'Home' },
+        { icon: 'info', title: 'Productos' },
+        { icon: 'warning', title: 'Saldo' }
       ]
     }
   },
   methods: {
     signIn(){
       alert("iniciando sesion")
+      this.goToRoute('login');
     },
     searchItem(){
       alert("Buscar...")
+    },
+    goToRoute(route){
+      this.$router.push("/" + route)
     }
   },
 }

@@ -16,6 +16,8 @@ export default new Vuex.Store({
       firebase.auth().createUserWithEmailAndPassword(user.correo, user.password).then(response => {
         let formData = new FormData()
         console.log("Respuesta de firebase", response)
+        let userId = firebase.auth().currentUser.uid;
+        formData.set('idUsuario', userId)
         formData.set('email', user.correo)
         formData.set('tipoDeUsuario', 1)
         formData.set('nombre', user.nombre)
@@ -33,14 +35,13 @@ export default new Vuex.Store({
         console.log("Creacion de usuario fallido", error)
       })
     },
-    signIn({commit}, user){
+    logIn({commit}, user){
       console.log("Este es el usuario:", user)
       firebase.auth().signInWithEmailAndPassword(user.correo, user.password).then(response => {
         console.log(response)
       }).catch(error => {
         console.log(error)
       })
-
     }
   },
   getters: {

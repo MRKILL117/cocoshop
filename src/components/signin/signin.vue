@@ -8,13 +8,12 @@
               <div class="headline" >Crear una cuenta</div>
             </v-card-title>
             <v-card-text>
-              <v-text-field name="Nombre" label="Nombre" box prepend-inner-icon="person" v-model="user.Nombre"></v-text-field>
-               <v-text-field name="Apellido" label="Apellido" box prepend-inner-icon="person" v-model="user.Apellido"></v-text-field>
-              <v-text-field name="Correo" label="Correo" box prepend-inner-icon="mail" v-model="user.correo"></v-text-field>
-              <v-text-field name="Direccion" label="Direccion" box prepend-inner-icon="location_city" v-model="user.Direccion"></v-text-field>
-              <v-text-field name="Telefono" label="Telefono" box prepend-inner-icon="call" v-model="user.Nombre"></v-text-field>
+              <v-text-field  label="Nombre" box prepend-inner-icon="person" v-model="user.nombre"></v-text-field>
+               <v-text-field  label="Apellido" box prepend-inner-icon="person" v-model="user.apellido"></v-text-field>
+              <v-text-field  label="Correo" box prepend-inner-icon="mail" v-model="user.correo"></v-text-field>
+              <v-text-field  label="Direccion" box prepend-inner-icon="location_city" v-model="user.direccion"></v-text-field>
+              <v-text-field  label="Telefono" box prepend-inner-icon="call" max-value="10" v-model="user.telefono"></v-text-field>
               <v-text-field
-                name="Contraseña"
                 label="Contraseña"
                 box
                 type="password"
@@ -38,9 +37,10 @@ export default {
     return {
       user: {
         correo: "",
-        Nombre: "",
-        Apellido: "",
-        Direccion: "",
+        nombre: "",
+        apellido: "",
+        telefono: "",
+        direccion: "",
         password: ""
       }
     };

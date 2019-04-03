@@ -5,7 +5,7 @@ import axios from 'axios';
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+export default({
   state: {
   },
   mutations: {

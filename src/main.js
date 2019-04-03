@@ -7,9 +7,11 @@ import * as firebase from "firebase";
 
 import Producto from "./components/productos/producto.vue";
 import Toolbar from "./components/common/mainToolbar.vue";
+import MainCarrito from "./components/carrito/mainCarrito.vue";
 
 Vue.component("producto-component", Producto);
 Vue.component("toolbar-component", Toolbar);
+Vue.component("carrito-component", MainCarrito);
 
 Vue.config.productionTip = false;
 

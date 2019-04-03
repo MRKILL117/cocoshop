@@ -18,7 +18,8 @@
                         <v-layout row wrap>
                             <v-flex xs1 md3 xl2 v-for="(item, index) in productosFiltrados" :key="index">
                                 <producto-component :titulo="item.titulo" :autor="item.autor" 
-                                :precio="item.precio" :imagen="item.imagen"/>
+                                :precio="item.precio" :imagen="item.imagenes[0].src" 
+                                :descripcion="item.descripcion" :imagenes="item.imagenes"/>
                             </v-flex>
                         </v-layout>
                     </v-card-text>

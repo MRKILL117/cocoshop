@@ -8,6 +8,7 @@ tener ordenado el alamcenamiento por "temas" ej: dentro de Usuario solo abra dat
 usuario*/
 import Usuarios from './Usuarios'
 import Tienda from './Tienda'
+import Carrito from './Carrito'
 
 Vue.use(Vuex)
 
@@ -15,5 +16,6 @@ export const store = new Vuex.Store({
     modules: {
         usuarios: Usuarios,
         tienda: Tienda,
+        carrito: Carrito,
     }
 })

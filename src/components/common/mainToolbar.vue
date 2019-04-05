@@ -38,7 +38,7 @@
         <v-tooltip bottom>
             <template v-slot:activator="{ on }">
                 <v-btn icon v-on="on">
-                    <v-icon>person</v-icon>
+                    <v-icon @click="goToRoute('perfil')">person</v-icon>
                 </v-btn>
             </template>
             <span>My Profile</span>

@@ -8,10 +8,16 @@ import * as firebase from "firebase";
 import Producto from "./components/productos/producto.vue";
 import Toolbar from "./components/common/mainToolbar.vue";
 import MainCarrito from "./components/carrito/mainCarrito.vue";
+import CrearProducto from "./components/productos/crearProducto.vue";
+import ImagesSelector from './components/common/imagesSelector.vue'
+import EditarProducto from './components/productos/editarProducto.vue'
 
 Vue.component("producto-component", Producto);
 Vue.component("toolbar-component", Toolbar);
 Vue.component("carrito-component", MainCarrito);
+Vue.component("crear-producto-component", CrearProducto);
+Vue.component('images-selector-carousel', ImagesSelector)
+Vue.component('editar-producto-component', EditarProducto)
 
 Vue.config.productionTip = false;
 
@@ -29,5 +35,8 @@ firebase.initializeApp(config);
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
+  created () {
+    store.dispatch('cargarProductos')
+  }
 }).$mount("#app");

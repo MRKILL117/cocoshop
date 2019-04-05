@@ -48,9 +48,9 @@
                     <v-btn color="success">
                         <v-icon class="mr-2">shop</v-icon> Comprar
                     </v-btn>
-                    <v-btn color="danger" class="mr-2" @click="removeAll ()">
+                    <!-- <v-btn color="danger" class="mr-2" @click="removeAll ()">
                         <v-icon>remove</v-icon> Limpiar Carrito
-                    </v-btn>
+                    </v-btn> -->
                 </v-card-actions>
             </v-card>
         </v-menu>
@@ -90,6 +90,7 @@ export default {
     methods: {
         removeProducto (producto) {
             this.$store.commit('removeProducto', producto)
+            this.$store.commit('addStock', producto)
         },
         removeAll () {
             this.$store.commit('removeAll')

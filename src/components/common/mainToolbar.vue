@@ -25,6 +25,8 @@
 
         <v-spacer></v-spacer>
 
+        <crear-producto-component></crear-producto-component>
+
         <v-tooltip bottom>
             <template v-slot:activator="{ on }">
                 <div class="body-2" v-on="on">

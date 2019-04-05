@@ -1,19 +1,33 @@
-import Vue from 'vue'
-import './plugins/vuetify'
-import App from './App.vue'
-import router from './router'
-import store from './store'
+import Vue from "vue";
+import "./plugins/vuetify";
+import App from "./App.vue";
+import router from "./router";
+import {store} from "./store/index.js";
+import * as firebase from "firebase";
 
-import LoginComponent from './components/inicio/login.vue'
-import Bienvenido from './components/inicio/bienvenida.vue'
+import Producto from "./components/productos/producto.vue";
+import Toolbar from "./components/common/mainToolbar.vue";
+import MainCarrito from "./components/carrito/mainCarrito.vue";
 
-Vue.component('login-component', LoginComponent)
-Vue.component('bienvenida-component', Bienvenido)
+Vue.component("producto-component", Producto);
+Vue.component("toolbar-component", Toolbar);
+Vue.component("carrito-component", MainCarrito);
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+
+// Initialize Firebase
+var config = {
+  apiKey: "AIzaSyDx-j5gIqZbwxVl6vYMBOaJo3pgw2XVL3I",
+  authDomain: "cocoshop-17c26.firebaseapp.com",
+  databaseURL: "https://cocoshop-17c26.firebaseio.com",
+  projectId: "cocoshop-17c26",
+  storageBucket: "cocoshop-17c26.appspot.com",
+  messagingSenderId: "63358257345"
+};
+firebase.initializeApp(config);
 
 new Vue({
   router,
   store,
   render: h => h(App)
-}).$mount('#app')
+}).$mount("#app");

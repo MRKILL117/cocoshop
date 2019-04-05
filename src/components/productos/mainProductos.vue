@@ -20,7 +20,8 @@
                                 <producto-component :titulo="item.titulo" :autor="item.autor" 
                                 :precio="item.precio" :imagen="item.imagenes[0].src" 
                                 :descripcion="item.descripcion" :imagenes="item.imagenes"
-                                :stock="Number(item.stock)" :id="item.id" :categoria="item.categoria"/>
+                                :stock="Number(item.stock)" :id="item.id" :categoria="item.categoria"
+                                :ref="'producto' + index"/>
                             </v-flex>
                         </v-layout>
                     </v-card-text>
@@ -42,23 +43,18 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
         }
     },
     methods: {
-
     },
     computed: {
-        productos () {
-            let products = this.$store.getters.getProductos
-            if (products.length > 0)
-                return products
-            else {
-                return []
-            }
-        },
+        ...mapGetters({
+            productos: 'getProductos',
+        }),
         filtro () {
             let filter = this.$store.getters.getProductos
             if (filter.length > 0)
@@ -82,7 +78,7 @@ export default {
             }
 
             return resultado
-        }
+        },
     }
 }
 </script>

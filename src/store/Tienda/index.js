@@ -7,7 +7,7 @@ Vue.use(Vuex)
 export default({
   state: {
       statusUpload: '',
-      categorias: ['Todo', 'Manga', 'Figura'],
+      categorias: new Set (['Todo']),
       productos: [
         //   {
         //       id: '1',
@@ -112,6 +112,9 @@ export default({
           let index = state.productos.findIndex(auxFind => auxFind.id == id)
           state.productos.splice(index, 1)
           console.log('El index', index)
+      },
+      addCategoria (state, categ) {
+          state.categorias.add(categ)
       }
   },
   actions: {
@@ -151,6 +154,7 @@ export default({
                        categoria: newProducto.categoria,
                        imagenes: auxUrls,
                     }
+                    commit('addCategoria', newProducto.categoria)
                     commit('addProducto', aux)
               } else {
                   commit('setStatus', "Not Uploaded")
@@ -191,6 +195,7 @@ export default({
                           categoria: producto.categoria,
                           imagenes: auxUrls,
                       }
+                      commit('addCategoria', producto.categoria)
                       newProductos.push(aux)
                   });
                   console.log("Nuevos", newProductos)
@@ -236,6 +241,7 @@ export default({
                        categoria: newProducto.categoria,
                        imagenes: auxUrls,
                     }
+                    commit('addCategoria', newProducto.categoria)
                     commit('setCargando', false)
                     commit('setProducto', aux)
                     commit('setStatus', "Edited")

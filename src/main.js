@@ -2,7 +2,7 @@ import Vue from "vue";
 import "./plugins/vuetify";
 import App from "./App.vue";
 import router from "./router";
-import {store} from "./store/index.js";
+import { store } from "./store/index.js";
 import * as firebase from "firebase";
 
 import Producto from "./components/productos/producto.vue";

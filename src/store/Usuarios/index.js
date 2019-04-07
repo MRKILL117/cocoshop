@@ -21,21 +21,21 @@ export default({
   actions: {
     crearUser({commit}, user) {
       console.log("Este el usuario:", user)
-      firebase.auth().createUserWithEmailAndPassword(user.correo, user.password).then(response => {
+      firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then(response => {
         let formData = new FormData()
         console.log("Respuesta de firebase", response)
         let userId = firebase.auth().currentUser.uid;
         formData.set('idUsuario', userId)
-        formData.set('email', user.correo)
+        formData.set('email', user.email)
         formData.set('tipoDeUsuario', 0)
         formData.set('nombre', user.nombre)
         formData.set('apellido', user.apellido)
         formData.set('telefono', user.telefono)
         formData.set('direccion', user.direccion)
-        formData.set('pais', 'Mexico')
-        formData.set('estado', 'Jalisco')
-        formData.set('ciudad', 'Guadalajara')
-        formData.set('codigoPostal', '45159')
+        formData.set('pais', user.pais)
+        formData.set('estado', user.estado)
+        formData.set('ciudad', user.ciudad)
+        formData.set('codigoPostal', user.codigoPostal)
 
         axios.post('http://localhost/cocoshop_php/registerUser.php', formData).then(response => {
           console.log("creacion usuario exitosamente", response)
@@ -89,10 +89,10 @@ export default({
       formData.set('apellido', user.apellido)
       formData.set('telefono', user.telefono)
       formData.set('direccion', user.direccion)
-      formData.set('pais', 'Mexico')
-      formData.set('estado', 'Jalisco')
-      formData.set('ciudad', 'Guadalajara')
-      formData.set('codigoPostal', '45159')
+      formData.set('pais', user.pais)
+      formData.set('estado', user.estado)
+      formData.set('ciudad', user.ciudad)
+      formData.set('codigoPostal', user.codigoPostal)
       axios.post('http://localhost/cocoshop_php/updateUser.php', formData).then(response => {
         console.log("Los datos se han actualizado correctamente")
       }).catch(error => {

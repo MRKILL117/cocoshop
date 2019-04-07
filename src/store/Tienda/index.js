@@ -8,6 +8,7 @@ export default({
       categorias: ['Todo', 'Manga', 'Figura'],
       productos: [
           {
+              id: '1',
               titulo: 'Puella Magi Madoka Magica the Different Story 1',
               autor: 'Magica Quartet y Hanokage',
               precio: '208',
@@ -20,6 +21,7 @@ export default({
               categoria: 'Manga',
           },
           {
+              id: '2',
               titulo: 'Puella Magi Madoka Magica the Different Story 2',
               autor: 'Magica Quartet y Hanokage',
               precio: '202',
@@ -32,6 +34,7 @@ export default({
               categoria: 'Manga',
           },
           {
+              id: '3',
               titulo: "pHat 5.5 Puella Magi Madoka Magica Side Story: Magia Record: Sana Futaba 1: 8 Scale PVC Figure",
               autor: 'pHat 5.5',
               precio: '4,149.83',
@@ -47,6 +50,7 @@ export default({
               categoria: 'Figura',
           },
           {
+              id: '4',
               titulo: "figma Magical Girl Madoka ™ Magica Madoka Kaname",
               autor: 'Max Factory',
               precio: '986.61 ',

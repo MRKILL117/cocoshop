@@ -79,8 +79,8 @@
                 </v-layout>
             </v-card-text>
             <v-card-actions>
-                <v-btn color="success" @click="añadirCarrito">
-                    <v-icon class="mr-1">add</v-icon>Add to cart
+                <v-btn :color="colorStatus" @click="añadirCarrito ()">
+                    <v-icon class="mr-1">{{iconStatus}}</v-icon>{{productoStatus}}
                 </v-btn>
             </v-card-actions>
         </v-card>
@@ -117,11 +117,35 @@ export default {
     data () {
         return {
             showMenu: false,
+            productoStatus: 'Add to Cart',
+            iconStatus: 'add',
+            colorStatus: 'success'
         }
     },
     methods: {
         añadirCarrito () {
-
+            let newProducto = {
+                titulo: this.titulo,
+                autor: this.autor,
+                precio: this.precio,
+                url: this.url,
+                imagen: this.imagen,
+                descripcion: this.descripcion,
+                imagenes: this.imagenes,
+            }
+            this.$store.commit('addCarrito', newProducto)
+            this.changeStatus()
+            
+        },
+        changeStatus: function(){
+            this.productoStatus = 'Added to Cart'
+            this.iconStatus = 'check'
+            this.colorStatus = 'orange'
+            setTimeout(() => {
+                this.productoStatus = 'Add to Cart'
+                this.iconStatus = 'add'
+                this.colorStatus = 'success'
+            }, 2000);
         }
     }
 }

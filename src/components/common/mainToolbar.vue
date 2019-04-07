@@ -44,7 +44,7 @@
             <span>My Profile</span>
         </v-tooltip>
 
-        <v-tooltip bottom v-if="">
+        <v-tooltip bottom v-if="true">
             <template v-slot:activator="{ on }">
                 <v-btn icon v-on="on">
                     <v-icon>exit_to_app</v-icon>

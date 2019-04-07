@@ -37,7 +37,7 @@ export default({
         formData.set('ciudad', 'Guadalajara')
         formData.set('codigoPostal', '45159')
 
-        axios.post('http://localhost:81/cocoshop_php/registerUser.php', formData).then(response => {
+        axios.post('http://localhost/cocoshop_php/registerUser.php', formData).then(response => {
           console.log("creacion usuario exitosamente", response)
           console.log("Respuesta de php", response)
         }).catch(error => {
@@ -53,7 +53,7 @@ export default({
         let userId = firebase.auth().currentUser.uid;
         let formData = new FormData()
         formData.set('idUsuario', userId)
-        axios.post('http://localhost:81/cocoshop_php/consultUser.php', formData).then(response => {
+        axios.post('http://localhost/cocoshop_php/consultUser.php', formData).then(response => {
           commit('setUserData', response.data)
           console.log("Estos son los datos guardados:", getters.getUserData)
           //console.log(state.userData.nombre)
@@ -70,7 +70,7 @@ export default({
       let userId = payload.uid;
       let formData = new FormData()
       formData.set('idUsuario', userId)
-      axios.post('http://localhost:81/cocoshop_php/consultUser.php', formData).then(response => {
+      axios.post('http://localhost/cocoshop_php/consultUser.php', formData).then(response => {
         commit('setUserData', response.data)
         console.log("Estos son los datos guardados:", getters.getUserData)
         //console.log(state.userData.nombre)
@@ -78,8 +78,27 @@ export default({
         //getters.getUserData
       }).catch(error => {
 
-      })      
-    }
+      })
+    },
+    updateUser({commit, getters}, userData){
+      let user = getters.getUserData;
+      let formData = new FormData()
+      formData.set('idUsuario', user.idUsuario)
+      formData.set('email', user.email)
+      formData.set('nombre', user.nombre)
+      formData.set('apellido', user.apellido)
+      formData.set('telefono', user.telefono)
+      formData.set('direccion', user.direccion)
+      formData.set('pais', 'Mexico')
+      formData.set('estado', 'Jalisco')
+      formData.set('ciudad', 'Guadalajara')
+      formData.set('codigoPostal', '45159')
+      axios.post('http://localhost/cocoshop_php/updateUser.php', formData).then(response => {
+        console.log("Los datos se han actualizado correctamente")
+      }).catch(error => {
+
+      })
+    },
   },
   getters: {
     getUserData(state){

@@ -17,6 +17,9 @@
                         id="id"
                         v-model="userData.apellido"
                     ></v-text-field>
+                    <v-alert type="info">
+                        El correo no se puede editar                        
+                    </v-alert>
                         <v-text-field
                         label="Correo"
                         id="id"
@@ -56,7 +59,7 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-btn color="error" block @click="goToRoute('perfil')">Cancelar</v-btn>
-                        <v-btn color="success" block @click="crearUser">Guardar</v-btn>
+                        <v-btn color="success" block @click="saveChanges">Guardar</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-flex>
@@ -80,6 +83,10 @@ export default {
     methods: {
         goToRoute (route) {
             this.$router.push('/' + route)
+        },
+        saveChanges(){
+            this.$store.dispatch("updateUser", this.user)
+            this.goToRoute('perfil');
         }
     }
 }

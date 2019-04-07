@@ -37,7 +37,7 @@ export default({
         formData.set('ciudad', 'Guadalajara')
         formData.set('codigoPostal', '45159')
 
-        axios.post('http://localhost/cocoshop_php/registerUser.php', formData).then(response => {
+        axios.post('http://localhost:81/cocoshop_php/registerUser.php', formData).then(response => {
           console.log("creacion usuario exitosamente", response)
           console.log("Respuesta de php", response)
         }).catch(error => {
@@ -53,7 +53,7 @@ export default({
         let userId = firebase.auth().currentUser.uid;
         let formData = new FormData()
         formData.set('idUsuario', userId)
-        axios.post('http://localhost/cocoshop_php/consultUser.php', formData).then(response => {
+        axios.post('http://localhost:81/cocoshop_php/consultUser.php', formData).then(response => {
           commit('setUserData', response.data)
           console.log("Estos son los datos guardados:", getters.getUserData)
           //console.log(state.userData.nombre)
@@ -65,6 +65,9 @@ export default({
       }).catch(error => {
         console.log(error)
       })
+    },
+    autoLogIn ({commit}, payload){
+      commit('setUser', {id: payload.uid, registeredMeetups: []})
     }
   },
   getters: {

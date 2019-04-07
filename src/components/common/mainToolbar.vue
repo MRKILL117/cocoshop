@@ -47,7 +47,7 @@
         <v-tooltip bottom v-if="true">
             <template v-slot:activator="{ on }">
                 <v-btn icon v-on="on">
-                    <v-icon>exit_to_app</v-icon>
+                    <v-icon @click="logout()">exit_to_app</v-icon>
                 </v-btn>
             </template>
             <span>Logout</span>
@@ -128,6 +128,9 @@ export default {
 
     },
     methods: {
+        logout(){
+            this.$store.dispatch('logOut')
+        },
         setCategoria () {
             console.log('cambio el filtro')
             let filtro = {

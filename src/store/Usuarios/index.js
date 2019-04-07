@@ -79,6 +79,15 @@ export default({
       }).catch(error => {
 
       })      
+    },
+
+    logOut(){
+      firebase.auth().signOut().then(function() {
+        window.location.reload()
+        console.log("Cierre de sesión exitoso")
+      }).catch(function(error) {
+        console.log("Error en cierre de sesión")
+      });      
     }
   },
   getters: {

@@ -74,7 +74,7 @@ export default {
         return {
             user: {
                 correo: "",
-                nombre: "Bruno",
+                nombre: "",
                 apellido: "",
                 telefono: "",
                 direccion: "",

@@ -14,6 +14,7 @@ export default({
   },
   mutations: {
     setUserData(state, data){
+      console.log("Entrando al setter")
       state.userData=data;
     }
   },
@@ -48,19 +49,16 @@ export default({
       })
     },
     logIn({commit, getters}, user){
-      console.log("Este es el usuario:", user)
       firebase.auth().signInWithEmailAndPassword(user.correo, user.password).then(response => {
-        console.log(response)
         let userId = firebase.auth().currentUser.uid;
         let formData = new FormData()
         formData.set('idUsuario', userId)
         axios.post('http://localhost/cocoshop_php/consultUser.php', formData).then(response => {
-          console.log(response)
-          commit('setUserData')
-          console.log(state.userData)
+          commit('setUserData', response.data)
+          console.log("Estos son los datos guardados:", getters.getUserData)
+          //console.log(state.userData.nombre)
           //getter
           //getters.getUserData
-          console.log(userData)
         }).catch(error => {
 
         })
@@ -70,7 +68,8 @@ export default({
     }
   },
   getters: {
-    getUserData(state, data){
+    getUserData(state){
+      console.log("Entrando al getter")
       return state.userData;
     }
   }

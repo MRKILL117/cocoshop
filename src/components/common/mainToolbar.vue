@@ -44,7 +44,7 @@
             <span>My Profile</span>
         </v-tooltip>
 
-        <v-tooltip bottom>
+        <v-tooltip bottom v-if="">
             <template v-slot:activator="{ on }">
                 <v-btn icon v-on="on">
                     <v-icon>exit_to_app</v-icon>
@@ -53,7 +53,7 @@
             <span>Logout</span>
         </v-tooltip>
 
-        <v-tooltip bottom>
+        <v-tooltip bottom v-if="!chekUser">
             <template v-slot:activator="{ on }">
                 <v-btn icon v-on="on">
                     <v-icon @click="goToRoute ('login')">lock_open</v-icon>
@@ -68,6 +68,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
@@ -77,6 +78,12 @@ export default {
         }
     },
     computed: {
+        ...mapGetters({
+            userData: 'getUserData',
+        }),
+        chekUser (){
+            return (this.userData.idUsuario!==undefined)
+        },
         categorias () {
             let categs = this.$store.getters.getCategorias
             if (categs.length > 0)
@@ -117,7 +124,8 @@ export default {
             }
 
             return resultado
-        }
+        },
+
     },
     methods: {
         setCategoria () {

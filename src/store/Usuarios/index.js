@@ -66,19 +66,8 @@ export default({
         console.log(error)
       })
     },
-    autoLogIn ({commit, getters}, payload){
-      let userId = payload.uid;
-      let formData = new FormData()
-      formData.set('idUsuario', userId)
-      axios.post('http://localhost:81/cocoshop_php/consultUser.php', formData).then(response => {
-        commit('setUserData', response.data)
-        console.log("Estos son los datos guardados:", getters.getUserData)
-        //console.log(state.userData.nombre)
-        //getter
-        //getters.getUserData
-      }).catch(error => {
-
-      })      
+    autoLogIn ({commit}, payload){
+      commit('setUser', {id: payload.uid, registeredMeetups: []})
     }
   },
   getters: {

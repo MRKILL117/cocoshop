@@ -79,7 +79,7 @@ export default {
     },
     computed: {
         ...mapGetters({
-            userData: 'getUserData',
+            userData: 'getUserData'
         }),
         chekUser (){
             return (this.userData.idUsuario!==undefined)

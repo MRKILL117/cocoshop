@@ -25,14 +25,17 @@ var config = {
   messagingSenderId: "63358257345"
 };
 firebase.initializeApp(config);
-firebase.auth().onAuthStateChanged((user)=> {
-  if (user) {
-    this.$store.dispatch('autoLogIn', user)
-  }
-})
+
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
+  created(){
+    firebase.auth().onAuthStateChanged((user)=> {
+      if (user) {
+        this.$store.dispatch('autoLogIn', user)
+      }
+    })    
+  }
 }).$mount("#app");
 //Comentario perrón

@@ -10,12 +10,17 @@ export default({
   state: {
     userData: {
       
-    }
+    },
+    status: false
   },
   mutations: {
     setUserData(state, data){
-      console.log("Entrando al setter")
+      console.log("Entrando al setter user data")
       state.userData=data;
+    },
+    setStatus(state, data){
+      console.log("Entrando al setter status")
+      state.status=data;
     }
   },
   actions: {
@@ -53,17 +58,20 @@ export default({
         let userId = firebase.auth().currentUser.uid;
         let formData = new FormData()
         formData.set('idUsuario', userId)
+        console.log("then de firebase")
         axios.post('http://localhost/cocoshop_php/consultUser.php', formData).then(response => {
           commit('setUserData', response.data)
+          commit('setStatus', true)
+          console.log("then the axios")
           console.log("Estos son los datos guardados:", getters.getUserData)
-          //console.log(state.userData.nombre)
-          //getter
-          //getters.getUserData
         }).catch(error => {
-
+          console.log("catch de axios")
         })
       }).catch(error => {
         console.log(error)
+        commit('setStatus', false)
+        console.log("catch de firebase")
+        alert("Correo o contraseña invalidos")
       })
     },
     autoLogIn ({commit, getters}, payload){
@@ -99,11 +107,23 @@ export default({
 
       })
     },
+    logOut(){
+      firebase.auth().signOut().then(function() {
+        window.location.reload()
+        console.log("Cierre de sesión exitoso")
+      }).catch(function(error) {
+        console.log("Error en cierre de sesión")
+      });      
+    }
   },
   getters: {
     getUserData(state){
-      console.log("Entrando al getter")
+      console.log("Entrando al getter user data")
       return state.userData;
+    },
+    getStatus(state){
+      console.log("Entrando al getter status")
+      return state.status;
     }
   }
 })

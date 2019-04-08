@@ -37,6 +37,6 @@ export default new Router({
       path: "/editPerfil",
       name: "Editar Perfil",
       component: editPerfil
-    }
+    },
   ]
 });

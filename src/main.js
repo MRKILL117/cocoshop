@@ -2,16 +2,18 @@ import Vue from "vue";
 import "./plugins/vuetify";
 import App from "./App.vue";
 import router from "./router";
-import {store} from "./store/index.js";
+import { store } from "./store/index.js";
 import * as firebase from "firebase";
 
 import Producto from "./components/productos/producto.vue";
 import Toolbar from "./components/common/mainToolbar.vue";
 import MainCarrito from "./components/carrito/mainCarrito.vue";
+import Perfil from "./components/perfil/perfil.vue";
 
 Vue.component("producto-component", Producto);
 Vue.component("toolbar-component", Toolbar);
 Vue.component("carrito-component", MainCarrito);
+Vue.component("perfil-component", Perfil);
 
 Vue.config.productionTip = false;
 

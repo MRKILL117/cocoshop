@@ -40,7 +40,10 @@ export default {
   },
   methods: {
     logIn(){
-      this.$store.dispatch("logIn", this.user)
+      this.$store.dispatch("logIn", this.user);
+      if(status){
+        this.goToRoute('')
+      }
     },
     goToRoute(route){
       this.$router.push("/" + route)

@@ -25,7 +25,7 @@
 
         <v-spacer></v-spacer>
 
-        <v-tooltip bottom>
+        <v-tooltip bottom v-if="checkUser">
             <template v-slot:activator="{ on }">
                 <div class="body-2" v-on="on">
                     <v-icon small>attach_money</v-icon>300
@@ -35,7 +35,7 @@
         </v-tooltip>
         
 
-        <v-tooltip bottom>
+        <v-tooltip bottom v-if="checkUser">
             <template v-slot:activator="{ on }">
                 <v-btn icon v-on="on">
                     <v-icon @click="goToRoute('perfil')">person</v-icon>
@@ -44,16 +44,16 @@
             <span>My Profile</span>
         </v-tooltip>
 
-        <v-tooltip bottom v-if="true">
+        <v-tooltip bottom v-if="checkUser">
             <template v-slot:activator="{ on }">
                 <v-btn icon v-on="on">
-                    <v-icon @click="logout()">exit_to_app</v-icon>
+                    <v-icon @click="logOut">exit_to_app</v-icon>
                 </v-btn>
             </template>
             <span>Logout</span>
         </v-tooltip>
 
-        <v-tooltip bottom v-if="!chekUser">
+        <v-tooltip bottom v-if="!checkUser">
             <template v-slot:activator="{ on }">
                 <v-btn icon v-on="on">
                     <v-icon @click="goToRoute ('login')">lock_open</v-icon>
@@ -62,7 +62,7 @@
             <span>Login</span>
         </v-tooltip>
         
-        <carrito-component></carrito-component>
+        <carrito-component v-if="checkUser"></carrito-component>
 
     </v-toolbar>
 </template>
@@ -79,9 +79,9 @@ export default {
     },
     computed: {
         ...mapGetters({
-            userData: 'getUserData',
+            userData: 'getUserData'
         }),
-        chekUser (){
+        checkUser (){
             return (this.userData.idUsuario!==undefined)
         },
         categorias () {

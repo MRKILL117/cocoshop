@@ -62,8 +62,10 @@ export default({
         }).catch(error => {
 
         })
+        this.$router.push("/")
       }).catch(error => {
         console.log(error)
+        alert("Datos incorrectos")
       })
     },
     autoLogIn ({commit, getters}, payload){

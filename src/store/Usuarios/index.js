@@ -22,6 +22,10 @@ export default({
     setStatus(state, data){
       console.log("Entrando al setter status")
       state.status=data;
+    },
+    addSaldo (state, saldo) {
+      state.userData.saldo = saldo
+      alert('añadido')
     }
   },
   actions: {
@@ -43,7 +47,7 @@ export default({
         formData.set('ciudad', user.ciudad)
         formData.set('codigoPostal', user.codigoPostal)
 
-        axios.post('http://localhost:81/cocoshop_php/registerUser.php', formData).then(response => {
+        axios.post('http://localhost/Cocoshop/conexiones/usuarios/registerUser.php', formData).then(response => {
           console.log("creacion usuario exitosamente", response)
           console.log("Respuesta de php", response)
         }).catch(error => {
@@ -60,7 +64,7 @@ export default({
         let formData = new FormData()
         formData.set('idUsuario', userId)
         console.log("then de firebase")
-        axios.post('http://localhost:81/cocoshop_php/consultUser.php', formData).then(response => {
+        axios.post('http://localhost/Cocoshop/conexiones/usuarios/consultUser.php', formData).then(response => {
           commit('setUserData', response.data)
           commit('setStatus', true)
           console.log("then the axios")
@@ -78,7 +82,7 @@ export default({
       let userId = payload.uid;
       let formData = new FormData()
       formData.set('idUsuario', userId)
-      axios.post('http://localhost:81/cocoshop_php/consultUser.php', formData).then(response => {
+      axios.post('http://localhost/Cocoshop/conexiones/usuarios/consultUser.php', formData).then(response => {
         commit('setUserData', response.data)
         console.log("Estos son los datos guardados:", getters.getUserData)
         //console.log(state.userData.nombre)
@@ -86,6 +90,22 @@ export default({
         //getters.getUserData
       }).catch(error => {
 
+      })
+    },
+    addSaldo ({commit}, payload) {
+      let formData = new FormData ()
+      console.log('payload', payload)
+      formData.set('idUsuario', payload.idUsuario)
+      formData.set('saldo', payload.saldo)
+      axios.post('http://localhost/Cocoshop/conexiones/usuarios/addSaldo.php', formData).then(response => {
+        console.log(response.data)
+        if (response.data.status.includes('OK')){
+          commit('addSaldo', payload.saldo)
+        } else {
+          alert('error al añadir el saldo')
+        }
+      }).catch(error => {
+        console.log(error)
       })
     },
     updateUser({commit, getters}, userData){
@@ -101,7 +121,7 @@ export default({
       formData.set('estado', user.estado)
       formData.set('ciudad', user.ciudad)
       formData.set('codigoPostal', user.codigoPostal)
-      axios.post('http://localhost:81/cocoshop_php/updateUser.php', formData).then(response => {
+      axios.post('http://localhost/Cocoshop/conexiones/usuarios/updateUser.php', formData).then(response => {
         console.log("Los datos se han actualizado correctamente")
       }).catch(error => {
 
@@ -123,7 +143,7 @@ export default({
       formData.set('userId', userId)      
       // Prompt the user to re-provide their sign-in credentials      
         cUser.delete().then(function() {
-          axios.post('http://localhost:81/cocoshop_php/deleteUser.php', formData).then(response =>{
+          axios.post('http://localhost/Cocoshop/conexiones/usuarios/deleteUser.php', formData).then(response =>{
             if (response){
               console.log (response.data)
             } else console.log ("Error php")

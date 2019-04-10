@@ -25,20 +25,20 @@
 
         <v-spacer></v-spacer>
 
-<<<<<<< HEAD
-        <crear-producto-component></crear-producto-component>
-
+        <crear-producto-component v-if="isAdmin">
+        </crear-producto-component>
+        <!-- {{userData}} -->
         
-=======
-        <v-tooltip bottom v-if="checkUser">
-            <template v-slot:activator="{ on }">
+        <v-tooltip bottom >
+            <template v-slot:activator="{ on }" v-if="checkUser">
                 <div class="body-2" v-on="on">
-                    <v-icon small>attach_money</v-icon>300
+                    <v-btn color="success" @click="addSaldo" flat small icon>
+                        <v-icon small>attach_money</v-icon>{{userData.saldo}}
+                    </v-btn>
                 </div>
             </template>
             <span>Balance</span>
         </v-tooltip>
->>>>>>> 2770e367486941915d42965fb71e5857f6253c6b
         
 
         <v-tooltip bottom v-if="checkUser">
@@ -85,23 +85,13 @@ export default {
     },
     computed: {
         ...mapGetters({
-<<<<<<< HEAD
-            categorias: 'getCategorias',
-        }),
-        // categorias () {
-        //     let categs = this.$store.getters.getCategorias
-        //     console.log("categs", [...categs])
-        //     if (categs.length > 0)
-        //         return [...categs]
-        //     else {
-        //         return []
-        //     }
-        // },
-=======
             userData: 'getUserData'
         }),
         checkUser (){
             return (this.userData.idUsuario!==undefined)
+        },
+        isAdmin () {
+            return this.userData.nombretipodeusuario == 'Administrador'
         },
         categorias () {
             let categs = this.$store.getters.getCategorias
@@ -111,7 +101,6 @@ export default {
                 return []
             }
         },
->>>>>>> 2770e367486941915d42965fb71e5857f6253c6b
         productos () {
             let products = this.$store.getters.getProductos
             if (products.length > 0)
@@ -164,6 +153,14 @@ export default {
         },
         showMenu (item) {
             console.log("Item", item)
+        },
+        addSaldo () {
+            let saldo = prompt('Nuevo saldo')
+            let payload = {
+                idUsuario: this.userData.idUsuario,
+                saldo: saldo
+            }
+            this.$store.dispatch('addSaldo', payload)
         }
     }
 }

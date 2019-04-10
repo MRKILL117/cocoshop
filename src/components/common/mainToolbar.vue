@@ -63,6 +63,7 @@
         </v-tooltip>
         
         <carrito-component v-if="checkUser"></carrito-component>
+        {{userData}}
 
     </v-toolbar>
 </template>

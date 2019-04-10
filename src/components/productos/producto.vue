@@ -86,10 +86,11 @@
             </v-card-text>
             <v-card-actions>
                 <v-layout row wrap justify-space-between>
-                    <v-btn :color="colorStatus" @click="añadirCarrito ()" :disabled="!disponibilidad">
+                    <v-btn :color="colorStatus" v-if="checkUser"
+                    @click="añadirCarrito ()" :disabled="!disponibilidad">
                         <v-icon class="mr-1">{{iconStatus}}</v-icon>{{productoStatus}}
                     </v-btn>
-                    <editar-producto-component v-on:setEditProduct="setEditarProducto">
+                    <editar-producto-component v-on:setEditProduct="setEditarProducto" v-if="checkUser">
                     </editar-producto-component>
                 </v-layout>
             </v-card-actions>
@@ -99,6 +100,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     props: {
         titulo: {
@@ -187,6 +189,12 @@ export default {
         }
     },
     computed: {
+        ...mapGetters({
+            userData: 'getUserData'
+        }),
+        checkUser (){
+            return (this.userData.idUsuario!==undefined)
+        },
         disponibilidad () {
             return (this.stock > 0)
         }

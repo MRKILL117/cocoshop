@@ -11,8 +11,9 @@
                     <v-layout column style="cursor: pointer;" class="mt-2" fill-height>
                         
                         <v-flex xs12>
-                            <v-img max-height="200" contain class="mt-2"
+                            <v-img height="199" max-height="200" contain class="mt-2"
                             :src="imagen"/>
+                            <v-divider class="mt-2"></v-divider>
                         </v-flex>
                         <v-flex xs12>
                             <div class="subheading font-weight-regular mt-2 tituloProducto">
@@ -76,12 +77,21 @@
                     <!-- Descripcion del producto -->
                     <v-flex xs12 class="mt-2" v-html="descripcion">
                     </v-flex>
+                    <v-flex xs12 class="mt-2">
+                        <div class="body-2">
+                            Stock: {{stock}}
+                        </div>
+                    </v-flex>
                 </v-layout>
             </v-card-text>
             <v-card-actions>
-                <v-btn color="success" @click="añadirCarrito">
-                    <v-icon class="mr-1">add</v-icon>Add to cart
-                </v-btn>
+                <v-layout row wrap justify-space-between>
+                    <v-btn :color="colorStatus" @click="añadirCarrito ()" :disabled="!disponibilidad">
+                        <v-icon class="mr-1">{{iconStatus}}</v-icon>{{productoStatus}}
+                    </v-btn>
+                    <editar-producto-component v-on:setEditProduct="setEditarProducto">
+                    </editar-producto-component>
+                </v-layout>
             </v-card-actions>
         </v-card>
         </v-menu>
@@ -112,16 +122,73 @@ export default {
         imagenes: {
             type: Array,
             default: function () { return [] }
+        },
+        stock : {
+            type: Number
+        },
+        id: {
+            type: String
+        },
+        categoria: {
+            type: String
         }
     },
     data () {
         return {
             showMenu: false,
+            productoStatus: 'Add to Cart',
+            iconStatus: 'add',
+            colorStatus: 'success'
         }
     },
     methods: {
         añadirCarrito () {
+            let newProducto = {
+                titulo: this.titulo,
+                autor: this.autor,
+                precio: this.precio,
+                url: this.url,
+                imagen: this.imagen,
+                descripcion: this.descripcion,
+                imagenes: this.imagenes,
+                stock: this.stock,
+                id: this.id,
+            }
+            this.$store.commit('addCarrito', newProducto)
+            this.$store.commit('subStock', newProducto)
 
+            this.changeStatus()
+            
+        },
+        changeStatus: function(){
+            this.productoStatus = 'Added to Cart'
+            this.iconStatus = 'check'
+            this.colorStatus = 'orange'
+            setTimeout(() => {
+                this.productoStatus = 'Add to Cart'
+                this.iconStatus = 'add'
+                this.colorStatus = 'success'
+            }, 2000);
+        },
+        setEditarProducto () {
+            let editProducto = {
+                titulo: this.titulo,
+                autor: this.autor,
+                precio: this.precio,
+                url: this.url,
+                imagen: this.imagen,
+                categoria: this.categoria,
+                descripcion: this.descripcion,
+                imagenes: this.imagenes,
+                stock: this.stock,
+                id: this.id,
+            }
+            this.$store.commit('setEditarProducto', editProducto)
+        }
+    },
+    computed: {
+        disponibilidad () {
+            return (this.stock > 0)
         }
     }
 }

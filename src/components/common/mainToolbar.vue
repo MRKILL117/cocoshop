@@ -10,13 +10,13 @@
 
         <v-layout row wrap>
         <v-flex xs12 md3>
-            <v-autocomplete flat :items="categorias" v-model="categoria" @change="setCategoria"
+            <v-autocomplete flat :items="Array.from(categorias)" v-model="categoria" @change="setCategoria"
             class="mt-2" solo background-color="blue-grey lighten-3"
             placeholder="Categories" prepend-inner-icon="category">
             </v-autocomplete>
         </v-flex>
         <v-flex xs12 md9>
-            <v-autocomplete flat :items="productosFiltrados" item-text="titulo" 
+            <v-autocomplete flat :items="productosFiltrados" item-text="titulo" disabled
             class="mt-2" solo background-color="blue-grey lighten-3" placeholder="Search"
             prepend-inner-icon="search">
             </v-autocomplete>
@@ -25,40 +25,9 @@
 
         <v-spacer></v-spacer>
 
-        <v-menu offset-y :close-on-content-click="false">
-            <template v-slot:activator="{ on }">
-                <div class="body-2" v-on="on">
-                    <v-icon small>attach_money</v-icon>300
-                </div>
-            </template>
-            <v-card width="600" max-height="250">
-                <v-card-title primary-title>
-                    <v-layout row wrap>
-                        <v-flex xs12>
-                            <div class="headline">Money</div>
-                        </v-flex>
-                        <v-flex xs12 class="mt-2">
-                            <v-divider></v-divider>
-                        </v-flex>
-                    </v-layout>
-                </v-card-title>
-                <v-card-text>
-                    <v-layout row wrap fill-height align-center>
-                        <v-flex xs11>
-                            <v-text-field
-                                prepend-inner-icon="attach_money"
-                                label="Adding Money"
-                            ></v-text-field>
-                        </v-flex>
-                        <v-flex xs1>
-                            <v-btn color="success" icon flat class="my-auto">
-                                <v-icon>add</v-icon>
-                            </v-btn>
-                        </v-flex>
-                    </v-layout>
-                </v-card-text>
-            </v-card>
-        </v-menu>
+        <crear-producto-component></crear-producto-component>
+
+        
         
 
         <v-tooltip bottom>
@@ -94,6 +63,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
@@ -103,14 +73,18 @@ export default {
         }
     },
     computed: {
-        categorias () {
-            let categs = this.$store.getters.getCategorias
-            if (categs.length > 0)
-                return categs
-            else {
-                return []
-            }
-        },
+        ...mapGetters({
+            categorias: 'getCategorias',
+        }),
+        // categorias () {
+        //     let categs = this.$store.getters.getCategorias
+        //     console.log("categs", [...categs])
+        //     if (categs.length > 0)
+        //         return [...categs]
+        //     else {
+        //         return []
+        //     }
+        // },
         productos () {
             let products = this.$store.getters.getProductos
             if (products.length > 0)
@@ -155,6 +129,9 @@ export default {
         },
         goToRoute (route) {
             this.$router.push('/' + route)
+        },
+        showMenu (item) {
+            console.log("Item", item)
         }
     }
 }

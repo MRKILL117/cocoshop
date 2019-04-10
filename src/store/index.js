@@ -9,6 +9,7 @@ usuario*/
 import Usuarios from './Usuarios'
 import Tienda from './Tienda'
 import Carrito from './Carrito'
+import Shared from './Shared'
 
 Vue.use(Vuex)
 
@@ -17,5 +18,6 @@ export const store = new Vuex.Store({
         usuarios: Usuarios,
         tienda: Tienda,
         carrito: Carrito,
+        shared: Shared,
     }
 })

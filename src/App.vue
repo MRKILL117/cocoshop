@@ -20,9 +20,13 @@ export default {
   methods: {
     signIn(){
       alert("iniciando sesion")
+      this.goToRoute('login');
     },
     searchItem(){
       alert("Buscar...")
+    },
+    goToRoute(route){
+      this.$router.push("/" + route)
     }
   },
 }

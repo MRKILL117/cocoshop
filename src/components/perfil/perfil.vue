@@ -5,7 +5,7 @@
         <v-card>
           <v-layout row wrap>
             <v-card-title primary-title>
-              <div class="headline">Inicio de sesion</div>
+              <div class="headline">Datos del usuario</div>
             </v-card-title>
             <v-card-text>
               <v-text-field label="Correo" box prepend-inner-icon="mail" v-model="user.correo"></v-text-field>
@@ -18,8 +18,8 @@
               ></v-text-field>
             </v-card-text>
             <v-card-actions>
-              <v-btn color="green" block @click="goToRoute('signin')">Registrarse</v-btn>
-              <v-btn color="light-blue" block @click="logIn">Entrar</v-btn>
+              <v-btn color="green" block @click="goToRoute('signin')">Editar datos</v-btn>
+              <v-btn color="green" block @click="goToRoute('borrarCuenta')">Borrar cuenta</v-btn>
             </v-card-actions>
           </v-layout>
         </v-card>
@@ -27,27 +27,21 @@
     </v-layout>
   </div>
 </template>
-
 <script>
 export default {
   data() {
     return {
-      user: {
-        correo: "",
-        password: ""
-      }
-    }
+      user: {}
+    };
   },
   methods: {
-    logIn(){
-      this.$store.dispatch("logIn", this.user)
+    logIn() {
+      this.$store.dispatch("logIn", this.user);
     },
-    goToRoute(route){
-      this.$router.push("/" + route)
+    goToRoute(route) {
+      this.$router.push("/" + route);
     }
   },
-  computed: {
-
-  }
+  computed: {}
 };
 </script>

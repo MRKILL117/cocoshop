@@ -36,7 +36,14 @@ new Vue({
   router,
   store,
   render: h => h(App),
-  created () {
+   
+  created(){
     store.dispatch('cargarProductos')
+    firebase.auth().onAuthStateChanged((user)=> {
+      if (user) {
+        this.$store.dispatch('autoLogIn', user)
+      }
+    })    
   }
 }).$mount("#app");
+//Comentario perrón

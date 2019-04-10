@@ -12,7 +12,7 @@
                     </v-card-actions>
                 </v-card>
             </v-flex>
-            <v-flex xs1 lg8>
+            <v-flex xs10 lg8>
                 <v-card>
                     <v-card-text>
                         <v-layout row wrap>

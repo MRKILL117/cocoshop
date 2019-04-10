@@ -45,7 +45,7 @@
                 </v-card-text>
 
                 <v-card-actions v-if="hayProductos">
-                    <v-btn color="success">
+                    <v-btn color="success" @click="comprar ()">
                         <v-icon class="mr-2">shop</v-icon> Comprar
                     </v-btn>
                     <!-- <v-btn color="danger" class="mr-2" @click="removeAll ()">
@@ -94,6 +94,9 @@ export default {
         },
         removeAll () {
             this.$store.commit('removeAll')
+        },
+        comprar () {
+            this.$store.dispatch('comprar')
         }
     }
 }

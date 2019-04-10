@@ -25,10 +25,16 @@
 
         <v-spacer></v-spacer>
 
-        <v-tooltip bottom v-if="checkUser">
-            <template v-slot:activator="{ on }">
+        <crear-producto-component v-if="isAdmin">
+        </crear-producto-component>
+        <!-- {{userData}} -->
+        
+        <v-tooltip bottom >
+            <template v-slot:activator="{ on }" v-if="checkUser">
                 <div class="body-2" v-on="on">
-                    <v-icon small>attach_money</v-icon>300
+                    <v-btn color="success" @click="addSaldo" flat small icon>
+                        <v-icon small>attach_money</v-icon>{{userData.saldo}}
+                    </v-btn>
                 </div>
             </template>
             <span>Balance</span>
@@ -84,6 +90,9 @@ export default {
         }),
         checkUser (){
             return (this.userData.idUsuario!==undefined)
+        },
+        isAdmin () {
+            return this.userData.nombretipodeusuario == 'Administrador'
         },
         categorias () {
             let categs = this.$store.getters.getCategorias
@@ -145,6 +154,14 @@ export default {
         },
         showMenu (item) {
             console.log("Item", item)
+        },
+        addSaldo () {
+            let saldo = prompt('Nuevo saldo')
+            let payload = {
+                idUsuario: this.userData.idUsuario,
+                saldo: saldo
+            }
+            this.$store.dispatch('addSaldo', payload)
         }
     }
 }

@@ -115,6 +115,30 @@ export default({
       }).catch(function(error) {
         console.log("Error en cierre de sesión")
       });      
+    },
+    deleteUser({commit}){
+      let userId = firebase.auth().currentUser.uid;
+      let cUser = firebase.auth().currentUser;
+      let formData = new FormData()
+      formData.set('userId', userId)      
+      // Prompt the user to re-provide their sign-in credentials      
+        cUser.delete().then(function() {
+          axios.post('http://localhost:81/cocoshop_php/deleteUser.php', formData).then(response =>{
+            if (response){
+              console.log (response.data)
+            } else console.log ("Error php")
+  
+          }).catch(error=> {
+            console.log(error)
+          })        
+          logOut()
+        }).catch(function(error) {
+            console.log(error)
+          // An error happened.
+        }); 
+   
+     
+
     }
   },
   getters: {

@@ -130,6 +130,7 @@ export default {
     methods: {
         logout(){
             this.$store.dispatch('logOut')
+            goToRoute('')
         },
         setCategoria () {
             console.log('cambio el filtro')

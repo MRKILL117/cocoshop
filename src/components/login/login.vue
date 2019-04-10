@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-layout row wrap align-center justify-center>
+    <v-layout row wrap align-center justify-center mt-5>
       <v-flex xs6>
         <v-card>
           <v-layout row wrap>
@@ -40,7 +40,10 @@ export default {
   },
   methods: {
     logIn(){
-      this.$store.dispatch("logIn", this.user)
+      this.$store.dispatch("logIn", this.user);
+      if(status){
+        this.goToRoute('')
+      }
     },
     goToRoute(route){
       this.$router.push("/" + route)

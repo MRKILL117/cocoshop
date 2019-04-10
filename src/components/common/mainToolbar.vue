@@ -25,30 +25,41 @@
 
         <v-spacer></v-spacer>
 
+<<<<<<< HEAD
         <crear-producto-component></crear-producto-component>
 
         
+=======
+        <v-tooltip bottom v-if="checkUser">
+            <template v-slot:activator="{ on }">
+                <div class="body-2" v-on="on">
+                    <v-icon small>attach_money</v-icon>300
+                </div>
+            </template>
+            <span>Balance</span>
+        </v-tooltip>
+>>>>>>> 2770e367486941915d42965fb71e5857f6253c6b
         
 
-        <v-tooltip bottom>
+        <v-tooltip bottom v-if="checkUser">
             <template v-slot:activator="{ on }">
                 <v-btn icon v-on="on">
-                    <v-icon>person</v-icon>
+                    <v-icon @click="goToRoute('perfil')">person</v-icon>
                 </v-btn>
             </template>
             <span>My Profile</span>
         </v-tooltip>
 
-        <v-tooltip bottom>
+        <v-tooltip bottom v-if="checkUser">
             <template v-slot:activator="{ on }">
                 <v-btn icon v-on="on">
-                    <v-icon>exit_to_app</v-icon>
+                    <v-icon @click="logout()">exit_to_app</v-icon>
                 </v-btn>
             </template>
             <span>Logout</span>
         </v-tooltip>
 
-        <v-tooltip bottom>
+        <v-tooltip bottom v-if="!checkUser">
             <template v-slot:activator="{ on }">
                 <v-btn icon v-on="on">
                     <v-icon @click="goToRoute ('login')">lock_open</v-icon>
@@ -57,7 +68,7 @@
             <span>Login</span>
         </v-tooltip>
         
-        <carrito-component></carrito-component>
+        <carrito-component v-if="checkUser"></carrito-component>
 
     </v-toolbar>
 </template>
@@ -74,6 +85,7 @@ export default {
     },
     computed: {
         ...mapGetters({
+<<<<<<< HEAD
             categorias: 'getCategorias',
         }),
         // categorias () {
@@ -85,6 +97,21 @@ export default {
         //         return []
         //     }
         // },
+=======
+            userData: 'getUserData'
+        }),
+        checkUser (){
+            return (this.userData.idUsuario!==undefined)
+        },
+        categorias () {
+            let categs = this.$store.getters.getCategorias
+            if (categs.length > 0)
+                return categs
+            else {
+                return []
+            }
+        },
+>>>>>>> 2770e367486941915d42965fb71e5857f6253c6b
         productos () {
             let products = this.$store.getters.getProductos
             if (products.length > 0)
@@ -117,9 +144,14 @@ export default {
             }
 
             return resultado
-        }
+        },
+
     },
     methods: {
+        logout(){
+            this.$store.dispatch('logOut')
+            goToRoute('')
+        },
         setCategoria () {
             console.log('cambio el filtro')
             let filtro = {

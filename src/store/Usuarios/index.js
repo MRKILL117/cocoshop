@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import * as firebase from "firebase";
 import axios from 'axios';
+import router from '../../router';
 import { store } from '..';
 
 Vue.use(Vuex)
@@ -42,7 +43,7 @@ export default({
         formData.set('ciudad', user.ciudad)
         formData.set('codigoPostal', user.codigoPostal)
 
-        axios.post('http://localhost/cocoshop_php/registerUser.php', formData).then(response => {
+        axios.post('http://localhost:81/cocoshop_php/registerUser.php', formData).then(response => {
           console.log("creacion usuario exitosamente", response)
           console.log("Respuesta de php", response)
         }).catch(error => {
@@ -59,7 +60,7 @@ export default({
         let formData = new FormData()
         formData.set('idUsuario', userId)
         console.log("then de firebase")
-        axios.post('http://localhost/cocoshop_php/consultUser.php', formData).then(response => {
+        axios.post('http://localhost:81/cocoshop_php/consultUser.php', formData).then(response => {
           commit('setUserData', response.data)
           commit('setStatus', true)
           console.log("then the axios")
@@ -67,18 +68,17 @@ export default({
         }).catch(error => {
           console.log("catch de axios")
         })
+        router.push("/")
       }).catch(error => {
         console.log(error)
-        commit('setStatus', false)
-        console.log("catch de firebase")
-        alert("Correo o contraseña invalidos")
+        alert("Datos incorrectos")
       })
     },
     autoLogIn ({commit, getters}, payload){
       let userId = payload.uid;
       let formData = new FormData()
       formData.set('idUsuario', userId)
-      axios.post('http://localhost/cocoshop_php/consultUser.php', formData).then(response => {
+      axios.post('http://localhost:81/cocoshop_php/consultUser.php', formData).then(response => {
         commit('setUserData', response.data)
         console.log("Estos son los datos guardados:", getters.getUserData)
         //console.log(state.userData.nombre)
@@ -101,7 +101,7 @@ export default({
       formData.set('estado', user.estado)
       formData.set('ciudad', user.ciudad)
       formData.set('codigoPostal', user.codigoPostal)
-      axios.post('http://localhost/cocoshop_php/updateUser.php', formData).then(response => {
+      axios.post('http://localhost:81/cocoshop_php/updateUser.php', formData).then(response => {
         console.log("Los datos se han actualizado correctamente")
       }).catch(error => {
 
@@ -110,10 +110,35 @@ export default({
     logOut(){
       firebase.auth().signOut().then(function() {
         window.location.reload()
+        router.push("/")
         console.log("Cierre de sesión exitoso")
       }).catch(function(error) {
         console.log("Error en cierre de sesión")
       });      
+    },
+    deleteUser({commit}){
+      let userId = firebase.auth().currentUser.uid;
+      let cUser = firebase.auth().currentUser;
+      let formData = new FormData()
+      formData.set('userId', userId)      
+      // Prompt the user to re-provide their sign-in credentials      
+        cUser.delete().then(function() {
+          axios.post('http://localhost:81/cocoshop_php/deleteUser.php', formData).then(response =>{
+            if (response){
+              console.log (response.data)
+            } else console.log ("Error php")
+  
+          }).catch(error=> {
+            console.log(error)
+          })        
+          logOut()
+        }).catch(function(error) {
+            console.log(error)
+          // An error happened.
+        }); 
+   
+     
+
     }
   },
   getters: {

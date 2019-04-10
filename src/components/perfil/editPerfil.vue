@@ -61,6 +61,9 @@
                         <v-btn color="error" block @click="goToRoute('perfil')">Cancelar</v-btn>
                         <v-btn color="success" block @click="saveChanges">Guardar</v-btn>
                     </v-card-actions>
+                    <v-card-actions>
+                        <v-btn color="error" @click="deleteAccount()">Eliminar Perfil</v-btn>
+                    </v-card-actions>
                 </v-card>
             </v-flex>
         </v-layout>
@@ -87,6 +90,10 @@ export default {
         saveChanges(){
             this.$store.dispatch("updateUser", this.user)
             this.goToRoute('perfil');
+        },
+        deleteAccount(){
+            this.$store.dispatch("deleteUser")
+            this.$router.push('/')
         }
     }
 }

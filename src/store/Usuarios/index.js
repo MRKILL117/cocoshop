@@ -12,7 +12,8 @@ export default({
     userData: {
       
     },
-    status: false
+    status: false,
+    history: []
   },
   mutations: {
     setUserData(state, data){
@@ -26,6 +27,9 @@ export default({
     addSaldo (state, saldo) {
       state.userData.saldo = saldo
       alert('añadido')
+    },
+    setHistory (state, history) {
+      state.history = history
     }
   },
   actions: {
@@ -136,16 +140,17 @@ export default({
         console.log("Error en cierre de sesión")
       });      
     },
-    deleteUser({commit}){
+    deleteUser({commit, getters}){
       let userId = firebase.auth().currentUser.uid;
       let cUser = firebase.auth().currentUser;
+      let idUsuario = getters.getUserData.idUsuario
       let formData = new FormData()
-      formData.set('userId', userId)      
+      formData.set('idUsuario', idUsuario)      
       // Prompt the user to re-provide their sign-in credentials      
         cUser.delete().then(function() {
           axios.post('http://localhost/Cocoshop/conexiones/usuarios/deleteUser.php', formData).then(response =>{
-            if (response){
-              console.log (response.data)
+            if (response.data.status.includes('OK')){
+              alert('SE HA BORRADO EL USUARIO CORRECTAMENTE')
             } else console.log ("Error php")
   
           }).catch(error=> {
@@ -156,9 +161,18 @@ export default({
             console.log(error)
           // An error happened.
         }); 
-   
-     
+    },
+    loadHistory ({commit, getters}, usuario) {
+      let formData = new FormData ()
+      formData.set('idUsuario', usuario.idUsuario)
+      console.log(usuario.idUsuario)
 
+      axios.post('http://localhost/cocoshop/conexiones/usuarios/getHistory.php', formData).then(response => {
+        console.log(response)
+        commit('setHistory', response.data.history)
+      }).catch( error => {
+        console.log(error)
+      })
     }
   },
   getters: {
@@ -169,6 +183,9 @@ export default({
     getStatus(state){
       console.log("Entrando al getter status")
       return state.status;
+    },
+    getHistorialProductos (state) {
+      return state.history
     }
   }
 })

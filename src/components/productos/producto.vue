@@ -90,7 +90,8 @@
                     @click="añadirCarrito ()" :disabled="!disponibilidad">
                         <v-icon class="mr-1">{{iconStatus}}</v-icon>{{productoStatus}}
                     </v-btn>
-                    <editar-producto-component v-on:setEditProduct="setEditarProducto" v-if="checkUser">
+                    <editar-producto-component v-if="isAdmin && checkUser"
+                    v-on:setEditProduct="setEditarProducto">
                     </editar-producto-component>
                 </v-layout>
             </v-card-actions>
@@ -197,7 +198,10 @@ export default {
         },
         disponibilidad () {
             return (this.stock > 0)
-        }
+        },
+        isAdmin () {
+            return this.userData.nombretipodeusuario == 'Administrador'
+        },
     }
 }
 </script>

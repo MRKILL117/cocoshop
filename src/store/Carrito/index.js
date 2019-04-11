@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as firebase from "firebase";
-import Axios from 'axios';
-
+import axios from 'axios';
+import router from '../../router';
+import { store } from '..';
 Vue.use(Vuex)
 
 export default({
@@ -25,8 +26,11 @@ export default({
       comprar ({commit, getters}) {
         let formData = new FormData ()
         let productos = getters.getCarrito
+        let idUsuario = getters.getUserData.idUsuario
+        let usuario = getters.getUserData
         let ids = new Set()
-        let cantidad = 0;
+        let cantidad = 0
+        let totalCant = 0
         let newProductos = []
         // Añadir ids al arreglo unico
         productos.forEach(element => {
@@ -38,19 +42,36 @@ export default({
             cantidad += productos.reduce(function(n, val) {
                 return n + (val.id === id);
             }, 0);
+            let currProd = productos.find(auxFind => {
+                return auxFind.id == id
+            })
+            console.log('currProd', currProd)
             newProductos.push({
                 id: id,
-                cantidad: cantidad
+                cantidad: cantidad,
+                precio: (currProd.precio * cantidad)
             })
+            totalCant += cantidad
             cantidad = 0
         });
         console.log('new productos', newProductos)
-        console.log('carrito', getters.getCarrito)
-        // formData.set('cantidad', getters('getCarrito'))
+        formData.set('productos', JSON.stringify(newProductos))
+        formData.set('idUsuario', idUsuario)
+        formData.set('currSaldo', usuario.saldo)
+        if (usuario.saldo < totalCant) {
+            alert('No tienes suficiente saldo')
+            return
+        }
         axios.post('http://localhost/Cocoshop/conexiones/productos/comprar.php', formData).then(response => {
-            
+            console.log("comprado", response.data)
+            let data = response.data
+            if (data.status.includes('OK')) {
+                alert('Todos los productos fueron comprados exitosamente')
+            } else {
+                console.log ("Los siguientes productos no pudieron ser comprados: ", data.prodError)
+            }
         }).catch(error => {
-
+            console.log(error)
         })
       }
   },

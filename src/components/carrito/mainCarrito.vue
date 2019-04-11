@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
@@ -85,7 +86,10 @@ export default {
         },
         hayProductos () {
             return (this.productos.length > 0)
-        }
+        },
+        ...mapGetters({
+            userData: 'getUserData'
+        }),
     },
     methods: {
         removeProducto (producto) {

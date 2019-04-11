@@ -75,22 +75,24 @@
                     <v-card-text>
                         <v-layout row wrap>
                             <v-flex xs12>
-                                <v-list two-line>
-                                    <v-list-tile avatar v-for="(producto, index) in historial" :key="index">
-                                        <v-list-tile-avatar>
-                                            <img :src="producto.imagenes[0].src">
-                                        </v-list-tile-avatar>
-                                        <v-list-tile-content>
-                                            <v-list-tile-title>{{ producto.titulo }}</v-list-tile-title>
-                                            <v-list-tile-sub-title>{{ producto.autor }} - ${{ producto.precio }} MXN</v-list-tile-sub-title>
-                                        </v-list-tile-content>
-                                        <v-list-tile-action>
-                                            <v-btn color="success" icon small @click="removeProducto (producto)">
-                                                <v-icon>remove</v-icon>
-                                            </v-btn>
-                                        </v-list-tile-action>
-                                    </v-list-tile>
-                                </v-list>
+                                <!-- {{historial}} -->
+                                <v-expansion-panel v-if="historial.length > 0">
+                                    <v-expansion-panel-content
+                                    v-for="(item,i) in historial" :key="i">
+                                    <template v-slot:header>
+                                        <div>ID Compra: {{item.idCompra}} - Status: {{item.estatus}} </div>
+                                    </template>
+                                    <v-card>
+                                        <v-card-text>
+                                            <v-layout row wrap>
+                                                <v-flex xs12 v-for="(item2, index) in item.productos" :key="index">
+                                                    {{item2.nombreProducto}} - Total: ${{item2.precio}}
+                                                </v-flex>
+                                            </v-layout>
+                                        </v-card-text>
+                                    </v-card>
+                                    </v-expansion-panel-content>
+                                </v-expansion-panel>
                             </v-flex>
                         </v-layout>
                     </v-card-text>
@@ -107,6 +109,10 @@ export default {
         return {
             
         }
+    },
+    updated () {
+        if (this.historial.length <= 0) 
+            this.$store.dispatch('loadHistory', this.userData)
     },
     computed: {
         ...mapGetters({

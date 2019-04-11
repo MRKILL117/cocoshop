@@ -10,7 +10,7 @@
 
         <v-layout row wrap>
         <v-flex xs12 md3>
-            <v-autocomplete flat :items="Array.from(categorias)" v-model="categoria" @change="setCategoria"
+            <v-autocomplete disabled flat :items="Array.from(categorias)" v-model="categoria" @change="setCategoria"
             class="mt-2" solo background-color="blue-grey lighten-3"
             placeholder="Categories" prepend-inner-icon="category">
             </v-autocomplete>
@@ -69,7 +69,6 @@
         </v-tooltip>
         
         <carrito-component v-if="checkUser"></carrito-component>
-        {{userData}}
 
     </v-toolbar>
 </template>

@@ -63,6 +63,7 @@
                     </v-card-actions>
                     <v-card-actions>
                         <v-btn color="error" @click="deleteAccount()">Eliminar Perfil</v-btn>
+                        <!-- {{historial}} -->
                     </v-card-actions>
                 </v-card>
             </v-flex>
@@ -78,9 +79,14 @@ export default {
             
         }
     },
+    updated () {
+        if (this.historial.length <= 0) 
+            this.$store.dispatch('loadHistory', this.userData)
+    },
     computed: {
         ...mapGetters({
-            userData: 'getUserData'
+            userData: 'getUserData',
+            historial: 'getHistorialProductos',
         }),
     },
     methods: {
@@ -92,8 +98,19 @@ export default {
             this.goToRoute('perfil');
         },
         deleteAccount(){
-            this.$store.dispatch("deleteUser")
-            this.$router.push('/')
+            let puedeBorrar = true
+            this.historial.forEach(element => {
+                if (element.estatus == 1) {
+                    puedeBorrar = false
+                    return
+                }
+            });
+            let des = confirm("Estas seguro que deseas realizar esta accion?")
+            if (des && puedeBorrar) {
+                this.$store.dispatch("deleteUser")
+                this.$router.push('/')
+            } else
+                alert('NO puedes borrar tu cuenta, tienes productos pendientes')
         }
     }
 }

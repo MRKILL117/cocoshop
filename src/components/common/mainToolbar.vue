@@ -9,16 +9,10 @@
         <v-spacer></v-spacer>
 
         <v-layout row wrap>
-        <v-flex xs12 md3>
-            <v-autocomplete flat :items="Array.from(categorias)" v-model="categoria" @change="setCategoria"
+        <v-flex xs12 md12>
+            <v-autocomplete  flat :items="Array.from(categorias)" v-model="categoria" @change="setCategoria"
             class="mt-2" solo background-color="blue-grey lighten-3"
             placeholder="Categories" prepend-inner-icon="category">
-            </v-autocomplete>
-        </v-flex>
-        <v-flex xs12 md9>
-            <v-autocomplete flat :items="productosFiltrados" item-text="titulo" disabled
-            class="mt-2" solo background-color="blue-grey lighten-3" placeholder="Search"
-            prepend-inner-icon="search">
             </v-autocomplete>
         </v-flex>
         </v-layout>
@@ -85,7 +79,8 @@ export default {
     },
     computed: {
         ...mapGetters({
-            userData: 'getUserData'
+            userData: 'getUserData',
+            categorias: 'getCategorias'
         }),
         checkUser (){
             return (this.userData.idUsuario!==undefined)
@@ -93,14 +88,15 @@ export default {
         isAdmin () {
             return this.userData.nombretipodeusuario == 'Administrador'
         },
-        categorias () {
-            let categs = this.$store.getters.getCategorias
-            if (categs.length > 0)
-                return categs
-            else {
-                return []
-            }
-        },
+        // categorias () {
+        //     let categs = this.$store.getters.getCategorias
+        //     console.log(Array.from(categs))
+        //     if (categs.length > 0)
+        //         return categs
+        //     else {
+        //         return []
+        //     }
+        // },
         productos () {
             let products = this.$store.getters.getProductos
             if (products.length > 0)

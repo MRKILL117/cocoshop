@@ -80,7 +80,13 @@
                                     <v-expansion-panel-content
                                     v-for="(item,i) in historial" :key="i">
                                     <template v-slot:header>
-                                        <div>ID Compra: {{item.idCompra}} - Status: {{item.estatus}} </div>
+                                        <v-layout row wrap>
+                                            <div>ID Compra: {{item.idCompra}} - Status: {{item.estatus}} </div>
+                                            <v-spacer></v-spacer>
+                                            <v-btn color="red" icon small @click="removeCompra (item.idCompra)">
+                                                <v-icon>remove</v-icon>
+                                            </v-btn>
+                                        </v-layout>
                                     </template>
                                     <v-card>
                                         <v-card-text>
@@ -123,6 +129,16 @@ export default {
     methods: {
         goToRoute (route) {
             this.$router.push('/' + route)
+        },
+        removeCompra (idCompra) {
+            let des = confirm("Estas seguro que deseas realizar esta accion?")
+            if (!des)
+                return
+
+            let aux = this.historial.find(auxFind => {
+                return auxFind.idCompra == idCompra
+            })
+            console.log("Borrar compra", aux)
         }
     }
 }

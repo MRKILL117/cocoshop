@@ -24,6 +24,7 @@ export default({
   },
   actions: {
       comprar ({commit, getters}) {
+          let urlBase = getters.getUrlBase
         let formData = new FormData ()
         let productos = getters.getCarrito
         let idUsuario = getters.getUserData.idUsuario
@@ -65,17 +66,17 @@ export default({
             alert('No tienes suficiente saldo')
             return
         }
-        // axios.post('http://localhost/Cocoshop/conexiones/productos/comprar.php', formData).then(response => {
-        //     console.log("comprado", response.data)
-        //     let data = response.data
-        //     if (data.status.includes('OK')) {
-        //         alert('Todos los productos fueron comprados exitosamente')
-        //     } else {
-        //         console.log ("Los siguientes productos no pudieron ser comprados: ", data.prodError)
-        //     }
-        // }).catch(error => {
-        //     console.log(error)
-        // })
+        axios.post(urlBase + 'conexiones/productos/comprar.php', formData).then(response => {
+            console.log("comprado", response.data)
+            let data = response.data
+            if (data.status.includes('OK')) {
+                alert('Todos los productos fueron comprados exitosamente')
+            } else {
+                console.log ("Los siguientes productos no pudieron ser comprados: ", data.prodError)
+            }
+        }).catch(error => {
+            console.log(error)
+        })
       }
   },
   getters: {

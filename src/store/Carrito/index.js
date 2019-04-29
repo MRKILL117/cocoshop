@@ -31,6 +31,7 @@ export default({
         let ids = new Set()
         let cantidad = 0
         let totalCant = 0
+        let totalPrecio = 0
         let newProductos = []
         // Añadir ids al arreglo unico
         productos.forEach(element => {
@@ -51,6 +52,7 @@ export default({
                 cantidad: cantidad,
                 precio: (currProd.precio * cantidad)
             })
+            totalPrecio += (currProd.precio * cantidad)
             totalCant += cantidad
             cantidad = 0
         });
@@ -58,21 +60,22 @@ export default({
         formData.set('productos', JSON.stringify(newProductos))
         formData.set('idUsuario', idUsuario)
         formData.set('currSaldo', usuario.saldo)
-        if (usuario.saldo < totalCant) {
+        console.log("Usuario saldo", usuario.saldo, "total", totalPrecio)
+        if (usuario.saldo < totalPrecio) {
             alert('No tienes suficiente saldo')
             return
         }
-        axios.post('http://localhost/Cocoshop/conexiones/productos/comprar.php', formData).then(response => {
-            console.log("comprado", response.data)
-            let data = response.data
-            if (data.status.includes('OK')) {
-                alert('Todos los productos fueron comprados exitosamente')
-            } else {
-                console.log ("Los siguientes productos no pudieron ser comprados: ", data.prodError)
-            }
-        }).catch(error => {
-            console.log(error)
-        })
+        // axios.post('http://localhost/Cocoshop/conexiones/productos/comprar.php', formData).then(response => {
+        //     console.log("comprado", response.data)
+        //     let data = response.data
+        //     if (data.status.includes('OK')) {
+        //         alert('Todos los productos fueron comprados exitosamente')
+        //     } else {
+        //         console.log ("Los siguientes productos no pudieron ser comprados: ", data.prodError)
+        //     }
+        // }).catch(error => {
+        //     console.log(error)
+        // })
       }
   },
   getters: {

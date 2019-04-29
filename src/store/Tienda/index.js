@@ -118,7 +118,8 @@ export default({
       }
   },
   actions: {
-      crearProducto ({commit}, newProducto) {
+      crearProducto ({commit, getters}, newProducto) {
+          let urlBase = getters.getUrlBase
           commit('setCargando', true)
           let formData = new FormData ()
           formData.set('titulo', newProducto.titulo)
@@ -130,7 +131,7 @@ export default({
           formData.set('nFotos', newProducto.imagenes.length)
           formData.set('imagenes', JSON.stringify(newProducto.imagenes))
           
-          axios.post('http://localhost/cocoshop/conexiones/productos/crearProducto.php', formData).then(response => {
+          axios.post(urlBase + 'conexiones/productos/crearProducto.php', formData).then(response => {
               commit('setCargando', false)
               let data = response.data
               if (data.status.includes('OK')){
@@ -140,7 +141,7 @@ export default({
                   let auxUrls = []
                   for(let i = 1; i <= newProducto.imagenes.length; i++) {
                       auxUrls.push({
-                          src: 'http://localhost/cocoshop/productos/' + id + '/' + i + '.jpg'
+                          src: urlBaes + 'productos/' + id + '/' + i + '.jpg'
                           })
                    }
                    
@@ -166,8 +167,9 @@ export default({
               commit('setStatus', "Not Uploaded")
           }) 
       },
-      cargarProductos ({commit}) {
-          axios.post('http://localhost/cocoshop/conexiones/productos/getAllProductos.php').then(response => {
+      cargarProductos ({commit, getters}) {
+        let urlBase = getters.getUrlBase
+          axios.post(urlBase + 'conexiones/productos/getAllProductos.php').then(response => {
               let data = response.data
               if (data.status.includes('OK')) {
                   let newProductos = []
@@ -181,7 +183,7 @@ export default({
                       let auxUrls = []
                       for(let i = 1; i <= producto.numeroElemento; i++) {
                            auxUrls.push({
-                               src: 'http://localhost/cocoshop/productos/' + producto.idProducto + '/' + i + '.jpg'
+                               src: urlBase + 'productos/' + producto.idProducto + '/' + i + '.jpg'
                            })
                       }
 
@@ -205,7 +207,8 @@ export default({
 
           })
       },
-      editarProducto ({commit}, newProducto) {
+      editarProducto ({commit, getters}, newProducto) {
+        let urlBase = getters.getUrlBase
           commit('setCargando', true)
           let formData = new FormData ()
           formData.set('id', newProducto.id)
@@ -218,7 +221,7 @@ export default({
           formData.set('nFotos', newProducto.imagenes.length)
           formData.set('imagenes', JSON.stringify(newProducto.imagenes))
           
-          axios.post('http://localhost/cocoshop/conexiones/productos/editarProducto.php', formData).then(response => {
+          axios.post(urlBase + 'conexiones/productos/editarProducto.php', formData).then(response => {
               let data = response.data
               if (data.status.includes('OK')) {
                   commit('setStatus', "Uploaded")
@@ -227,7 +230,7 @@ export default({
                   let auxUrls = []
                   for(let i = 1; i <= newProducto.imagenes.length; i++) {
                       auxUrls.push({
-                          src: 'http://localhost/cocoshop/productos/' + id + '/' + i + '.jpg'
+                          src: urlBase + 'productos/' + id + '/' + i + '.jpg'
                           })
                    }
                    
@@ -252,13 +255,14 @@ export default({
               commit('setStatus', "Not Edited")
           })
       },
-      eliminarProducto ({commit}, id) {
+      eliminarProducto ({commit, getters}, id) {
+        let urlBase = getters.getUrlBase
           commit('setCargando', true)
           let formData = new FormData ()
           formData.set('id', id)
         //   commit('deleteProducto', id)
           
-          axios.post('http://localhost/cocoshop/conexiones/productos/eliminarProducto.php', formData).then(response => {
+          axios.post(urlBase + 'conexiones/productos/eliminarProducto.php', formData).then(response => {
               let data = response.data
               if (data.status.includes('OK')) {
                   commit('setStatus', "Deleted")

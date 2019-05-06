@@ -152,11 +152,20 @@ export default {
         },
         addSaldo () {
             let saldo = prompt('Nuevo saldo')
-            let payload = {
-                idUsuario: this.userData.idUsuario,
-                saldo: saldo
+            let saldoF = parseFloat(saldo)
+            if (saldoF < 1) {
+                alert("No se puede ingresar saldo negativo")
+            } else {
+                let saldoAnt = parseFloat(this.userData.saldo)
+                let saldoFinal = saldoF + saldoAnt
+                console.log(saldoF)
+                console.log(saldoFinal)
+                let payload = {
+                    idUsuario: this.userData.idUsuario,
+                    saldo: saldoFinal
+                }
+                this.$store.dispatch('addSaldo', payload)
             }
-            this.$store.dispatch('addSaldo', payload)
         }
     }
 }

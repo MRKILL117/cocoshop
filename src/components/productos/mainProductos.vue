@@ -1,17 +1,6 @@
 <template>
     <div>
-        <v-layout row wrap>
-            <v-flex xs1 lg2>
-                <v-card>
-                    <v-card-title primary-title>
-                        Aside derecho
-                    </v-card-title>
-                    <v-card-actions>
-                        <v-btn flat color="primary">text</v-btn>
-                        <v-btn flat color="primary">text</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-flex>
+        <v-layout row wrap justify-center mt-5 mb-5>
             <v-flex xs10 lg8>
                 <v-card>
                     <v-card-text>
@@ -27,17 +16,7 @@
                     </v-card-text>
                 </v-card>
             </v-flex>
-            <v-flex xs1 lg2>
-                <v-card>
-                    <v-card-title primary-title>
-                        Aside derecho
-                    </v-card-title>
-                    <v-card-actions>
-                        <v-btn flat color="primary">text</v-btn>
-                        <v-btn flat color="primary">text</v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-flex>
+
         </v-layout>
     </div>
 </template>

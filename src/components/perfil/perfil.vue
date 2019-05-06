@@ -80,7 +80,19 @@
                                     <v-expansion-panel-content
                                     v-for="(item,i) in historial" :key="i">
                                     <template v-slot:header>
-                                        <div>ID Compra: {{item.idCompra}} - Status: {{item.estatus}} </div>
+                                        <v-avatar :size="30" :src= "getURL (item)" >
+                                        </v-avatar>
+                                        <div>ID Compra: {{item.idCompra}} - Status: 
+                                            <div v-if="item.estatus == 1">
+                                                   Activo
+                                            </div>
+                                            <div v-if="item.estatus == 2">
+                                                    Procesando 
+                                            </div>
+                                            <div v-if="item.estatus == 3">
+                                                    Cancelar 
+                                            </div>
+                                        </div>
                                     </template>
                                     <v-card>
                                         <v-card-text>
@@ -104,15 +116,21 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { timeout } from 'q';
 export default {
     data () {
         return {
             
         }
     },
+    created () {
+        setTimeout(() => {
+           this.$store.dispatch('loadHistory', this.userData) 
+        }, 0);
+    },
     updated () {
-        if (this.historial.length <= 0) 
-            this.$store.dispatch('loadHistory', this.userData)
+        // if (this.historial.length <= 0) 
+        //     this.$store.dispatch('loadHistory', this.userData)
     },
     computed: {
         ...mapGetters({
@@ -123,6 +141,9 @@ export default {
     methods: {
         goToRoute (route) {
             this.$router.push('/' + route)
+        },
+        getURL(item){
+            return 'http://localhost/cocoshop/productos/' + item.idProducto + '/' + 1 + '.jpg'
         }
     }
 }

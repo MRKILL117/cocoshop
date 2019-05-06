@@ -29,16 +29,32 @@
                 maxlength="35"
                 v-model="user.email"
               ></v-text-field>
+              <v-alert type="info" v-show="!checkPasswordMayus || !checkPasswordMins || !checkPasswordNum || !checkPasswordLength">
+                La contraseña debe estar compuesta minimo con una letra mayuscula,
+                una letra minuscula y un numero, y debe de contener un minimo de 8 caracteres
+                </v-alert>
+                
+                <v-alert type="success" v-show="checkPasswordMayus && checkPasswordMins && checkPasswordNum && checkPasswordLength" >¡Muy bien!</v-alert>
+                
+                <v-text-field
+                    label="Contraseña"
+                    box
+                    type="password"
+                    prepend-inner-icon="lock"
+                    v-model="user.password"
+                ></v-text-field>
+                <v-alert type="error" v-show="!checkPassword">Las contraseñas no son iguales</v-alert>
               <v-text-field
-                label="Contraseña"
+                label="Confirme su contraseña"
                 box
                 type="password"
                 prepend-inner-icon="lock"
-                v-model="user.password"
+                v-model="user.c_password"
               ></v-text-field>
               <v-text-field
                 label="Telefono"
                 box
+                type="number"
                 prepend-inner-icon="call"
                 maxlength="10"
                 v-model="user.telefono"
@@ -74,13 +90,16 @@
               <v-text-field
                 label="cp"
                 box
+                type="number"
                 prepend-inner-icon="markunread_mailbox"
-                maxlength="200"
+                maxlength="5"
                 v-model="user.codigoPostal"
               ></v-text-field>
             </v-card-text>
             <v-card-actions>
-              <v-btn color="green" block @click="crearUser">Registrarse</v-btn>
+              <v-btn color="green" block @click="crearUser"
+              :disabled="!checkPasswordMayus || !checkPasswordMins || !checkPasswordNum || !checkPasswordLength || !checkPassword"
+              >Registrarse</v-btn>
             </v-card-actions>
           </v-layout>
         </v-card>
@@ -100,6 +119,7 @@ export default {
         telefono: "",
         direccion: "",
         password: "",
+        c_password: "",
         codigoPostal: "",
         ciudad: "",
         estado: ""
@@ -115,6 +135,73 @@ export default {
       this.$router.push("/" + route);
     }
   },
-  computed: {}
+  computed: {
+    checkPassword() {
+        if(this.user.password === this.user.c_password){
+          this.errorMsg = false
+          return true
+        }else{
+          this.errorMsg = true
+          return false
+        }
+    },
+    checkPasswordMayus(){
+      let pass = this.user.password.split('');
+      let cont = 0;
+      this.cont1 = 0;
+      for (let i = 0; i < pass.length; i++) {
+        if(pass[i]===pass[i].toUpperCase()){
+          cont++;
+          if(pass[i]==='0' || pass[i]==='1' || pass[i]==='2' || pass[i]==='3' || pass[i]==='4' || pass[i]==='5' || pass[i]==='6' || pass[i]==='7' || pass[i]==='8' || pass[i]==='9'){
+          cont--;
+          }
+        }
+      }
+      if(cont>=1){
+        return true
+      }else{
+        return false
+      }
+    },
+    checkPasswordMins(){
+      let pass = this.user.password.split('');
+      let cont = 0;
+      for (let i = 0; i < pass.length; i++) {
+        if(pass[i]===pass[i].toLowerCase()){
+          cont++;
+          if(pass[i]==='0' || pass[i]==='1' || pass[i]==='2' || pass[i]==='3' || pass[i]==='4' || pass[i]==='5' || pass[i]==='6' || pass[i]==='7' || pass[i]==='8' || pass[i]==='9'){
+          cont--;
+          }
+        }
+      }
+      if(cont>=1){
+        return true
+      }else{
+        return false
+      }
+    },
+    checkPasswordNum(){
+      let pass = this.user.password.split('');
+      let cont = 0;
+      for (let i = 0; i < pass.length; i++) {
+        if(pass[i]==='0' || pass[i]==='1' || pass[i]==='2' || pass[i]==='3' || pass[i]==='4' || pass[i]==='5' || pass[i]==='6' || pass[i]==='7' || pass[i]==='8' || pass[i]==='9'){
+          cont++;
+        }
+      }
+      if(cont>=1){
+        return true
+      }else{
+        return false
+      }
+    },
+    checkPasswordLength(){
+      let pass = this.user.password.split('');
+      if(pass.length>=8){
+        return true
+      }else{
+        return false
+      }
+    }
+  }
 };
 </script>

@@ -97,13 +97,10 @@ export default({
       })
     },
     addSaldo ({commit}, payload) {
-      //Objeto js para pasar datos a un php por medio de post o get
       let formData = new FormData ()
       console.log('payload', payload)
-      //$_POST["idUsuario"] = payload.usuario
       formData.set('idUsuario', payload.idUsuario)
       formData.set('saldo', payload.saldo)
-      //npm i axios es para que puedas ejecutar un php
       axios.post('http://localhost/Cocoshop/conexiones/usuarios/addSaldo.php', formData).then(response => {
         console.log(response.data)
         if (response.data.status.includes('OK')){

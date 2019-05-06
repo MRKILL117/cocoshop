@@ -65,10 +65,12 @@ export default({
         axios.post('http://localhost/Cocoshop/conexiones/productos/comprar.php', formData).then(response => {
             console.log("comprado", response.data)
             let data = response.data
+            console.log(response.data)
             if (data.status.includes('OK')) {
                 alert('Todos los productos fueron comprados exitosamente')
             } else {
                 console.log ("Los siguientes productos no pudieron ser comprados: ", data.prodError)
+                alert("hubo un error en la compra de los articulos")
             }
         }).catch(error => {
             console.log(error)

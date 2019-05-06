@@ -11,6 +11,7 @@ import MainCarrito from "./components/carrito/mainCarrito.vue";
 import CrearProducto from "./components/productos/crearProducto.vue";
 import ImagesSelector from './components/common/imagesSelector.vue'
 import EditarProducto from './components/productos/editarProducto.vue'
+import Tests from './components/tests/tests.vue'
 
 Vue.component("producto-component", Producto);
 Vue.component("toolbar-component", Toolbar);
@@ -18,6 +19,7 @@ Vue.component("carrito-component", MainCarrito);
 Vue.component("crear-producto-component", CrearProducto);
 Vue.component('images-selector-carousel', ImagesSelector)
 Vue.component('editar-producto-component', EditarProducto)
+Vue.component('tests-component', Tests)
 
 Vue.config.productionTip = false;
 

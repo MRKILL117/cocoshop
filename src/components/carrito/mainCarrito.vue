@@ -100,6 +100,7 @@ export default {
             this.$store.commit('removeAll')
         },
         comprar () {
+            
             this.$store.dispatch('comprar')
         }
     }

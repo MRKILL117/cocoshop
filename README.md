@@ -1,4 +1,4 @@
-# tienda
+# tienda no me sale nadaaaa :( voy a borrar esto, soy un fracaso
 
 ## Project setup
 ```

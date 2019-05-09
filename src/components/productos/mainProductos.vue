@@ -56,11 +56,6 @@ export default {
       this.$router.push("/" + route);
     }
     },
- /*   created() {
-      if (!firebase.auth().currentUser) {
-        this.goToRoute('Login');
-        }
-    },    */
     computed: {
         ...mapGetters({
             productos: 'getProductos',

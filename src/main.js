@@ -44,6 +44,7 @@ new Vue({
       if (user) {
         this.$store.dispatch('autoLogIn', user)
       }
+      //@everyone SI NO HAY USUARIO SE MANDA A LOGIN. 
       if (!user) {
         this.$router.push("Login");
       }

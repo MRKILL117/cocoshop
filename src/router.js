@@ -47,15 +47,3 @@ export default new Router({
     },
   ]
 });
-/*
-router.beforeEach((to, from, next) => {
-    const currentUser = firebase.auth().currentUser
-    if (!currentUser) {
-        next('Login')
-    } else if (currentUser) {
-        next()
-    } else {
-        next()
-    }
-})
-*/

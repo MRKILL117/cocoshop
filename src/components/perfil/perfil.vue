@@ -144,6 +144,16 @@ export default {
         },
         getURL(item){
             return 'http://localhost/cocoshop/productos/' + item.idProducto + '/' + 1 + '.jpg'
+        },
+        removeCompra (idCompra) {
+            let des = confirm("Estas seguro que deseas realizar esta accion?")
+            if (!des)
+                return
+
+            let aux = this.historial.find(auxFind => {
+                return auxFind.idCompra == idCompra
+            })
+            console.log("Borrar compra", aux)
         }
     }
 }

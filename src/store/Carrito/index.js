@@ -24,6 +24,7 @@ export default({
   },
   actions: {
       comprar ({commit, getters}) {
+          let urlBase = getters.getUrlBase
         let formData = new FormData ()
         let productos = getters.getCarrito
         let idUsuario = getters.getUserData.idUsuario
@@ -31,6 +32,7 @@ export default({
         let ids = new Set()
         let cantidad = 0
         let totalCant = 0
+        let totalPrecio = 0
         let newProductos = []
         // Añadir ids al arreglo unico
         productos.forEach(element => {
@@ -51,6 +53,7 @@ export default({
                 cantidad: cantidad,
                 precio: (currProd.precio * cantidad)
             })
+            totalPrecio += (currProd.precio * cantidad)
             totalCant += cantidad
             cantidad = 0
         });
@@ -58,11 +61,12 @@ export default({
         formData.set('productos', JSON.stringify(newProductos))
         formData.set('idUsuario', idUsuario)
         formData.set('currSaldo', usuario.saldo)
-        if (usuario.saldo < totalCant) {
+        console.log("Usuario saldo", usuario.saldo, "total", totalPrecio)
+        if (usuario.saldo < totalPrecio) {
             alert('No tienes suficiente saldo')
             return
         }
-        axios.post('http://localhost/Cocoshop/conexiones/productos/comprar.php', formData).then(response => {
+        axios.post(urlBase + 'conexiones/productos/comprar.php', formData).then(response => {
             console.log("comprado", response.data)
             let data = response.data
             console.log(response.data)

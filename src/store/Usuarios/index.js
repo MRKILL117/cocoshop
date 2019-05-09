@@ -33,7 +33,8 @@ export default({
     }
   },
   actions: {
-    crearUser({commit}, user) {
+    crearUser({commit, getters}, user) {
+      let urlBase = getters.getUrlBase
       console.log("Este el usuario:", user)
       firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then(response => {
         let formData = new FormData()
@@ -51,7 +52,7 @@ export default({
         formData.set('ciudad', user.ciudad)
         formData.set('codigoPostal', user.codigoPostal)
 
-        axios.post('http://localhost/Cocoshop/conexiones/usuarios/registerUser.php', formData).then(response => {
+        axios.post(urlBase + 'conexiones/usuarios/registerUser.php', formData).then(response => {
           console.log("creacion usuario exitosamente", response)
           console.log("Respuesta de php", response)
         }).catch(error => {
@@ -63,12 +64,13 @@ export default({
       })
     },
     logIn({commit, getters}, user){
+      let urlBase = getters.getUrlBase
       firebase.auth().signInWithEmailAndPassword(user.correo, user.password).then(response => {
         let userId = firebase.auth().currentUser.uid;
         let formData = new FormData()
         formData.set('idUsuario', userId)
         console.log("then de firebase")
-        axios.post('http://localhost/Cocoshop/conexiones/usuarios/consultUser.php', formData).then(response => {
+        axios.post(urlBase + 'conexiones/usuarios/consultUser.php', formData).then(response => {
           commit('setUserData', response.data)
           commit('setStatus', true)
           console.log("then the axios")
@@ -83,10 +85,11 @@ export default({
       })
     },
     autoLogIn ({commit, getters}, payload){
+      let urlBase = getters.getUrlBase
       let userId = payload.uid;
       let formData = new FormData()
       formData.set('idUsuario', userId)
-      axios.post('http://localhost/Cocoshop/conexiones/usuarios/consultUser.php', formData).then(response => {
+      axios.post(urlBase + 'conexiones/usuarios/consultUser.php', formData).then(response => {
         commit('setUserData', response.data)
         console.log("Estos son los datos guardados:", getters.getUserData)
         //console.log(state.userData.nombre)
@@ -96,15 +99,14 @@ export default({
 
       })
     },
-    addSaldo ({commit}, payload) {
-      //Objeto js para pasar datos a un php por medio de post o get
+    addSaldo ({commit, getters}, payload) {
+      let urlBase = getters.getUrlBase
       let formData = new FormData ()
       console.log('payload', payload)
       //$_POST["idUsuario"] = payload.usuario
       formData.set('idUsuario', payload.idUsuario)
       formData.set('saldo', payload.saldo)
-      //npm i axios es para que puedas ejecutar un php
-      axios.post('http://localhost/Cocoshop/conexiones/usuarios/addSaldo.php', formData).then(response => {
+      axios.post(urlBase + 'conexiones/usuarios/addSaldo.php', formData).then(response => {
         console.log(response.data)
         if (response.data.status.includes('OK')){
           commit('addSaldo', payload.saldo)
@@ -116,6 +118,7 @@ export default({
       })
     },
     updateUser({commit, getters}, userData){
+      let urlBase = getters.getUrlBase
       let user = getters.getUserData;
       let formData = new FormData()
       formData.set('idUsuario', user.idUsuario)
@@ -128,7 +131,7 @@ export default({
       formData.set('estado', user.estado)
       formData.set('ciudad', user.ciudad)
       formData.set('codigoPostal', user.codigoPostal)
-      axios.post('http://localhost/Cocoshop/conexiones/usuarios/updateUser.php', formData).then(response => {
+      axios.post(urlBase + 'conexiones/usuarios/updateUser.php', formData).then(response => {
         console.log("Los datos se han actualizado correctamente")
       }).catch(error => {
 
@@ -144,6 +147,7 @@ export default({
       });      
     },
     deleteUser({commit, getters}){
+      let urlBase = getters.getUrlBase
       let userId = firebase.auth().currentUser.uid;
       let cUser = firebase.auth().currentUser;
       let idUsuario = getters.getUserData.idUsuario
@@ -151,7 +155,7 @@ export default({
       formData.set('idUsuario', idUsuario)      
       // Prompt the user to re-provide their sign-in credentials      
         cUser.delete().then(function() {
-          axios.post('http://localhost/Cocoshop/conexiones/usuarios/deleteUser.php', formData).then(response =>{
+          axios.post(urlBase + 'conexiones/usuarios/deleteUser.php', formData).then(response =>{
             if (response.data.status.includes('OK')){
               alert('SE HA BORRADO EL USUARIO CORRECTAMENTE')
             } else console.log ("Error php")
@@ -166,11 +170,12 @@ export default({
         }); 
     },
     loadHistory ({commit, getters}, usuario) {
+      let urlBase = getters.getUrlBase
       let formData = new FormData ()
       formData.set('idUsuario', usuario.idUsuario)
       console.log(usuario.idUsuario)
 
-      axios.post('http://localhost/cocoshop/conexiones/usuarios/getHistory.php', formData).then(response => {
+      axios.post(urlBase + 'conexiones/usuarios/getHistory.php', formData).then(response => {
         console.log(response)
         commit('setHistory', response.data.history)
       }).catch( error => {

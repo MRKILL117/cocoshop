@@ -7,8 +7,7 @@ Vue.use(Vuex)
 
 export default({
   state: {
-      cargando: false,
-      urlBase: 'http://192.168.84.37/Cocoshop/'
+      cargando: false
   },
   mutations: {
       setCargando (state, value) {
@@ -18,9 +17,6 @@ export default({
   actions: {
   },
   getters: {
-      getUrlBase (state) {
-          return state.urlBase
-      },
       getCargando (state) {
           return state.cargando
       }

@@ -8,7 +8,7 @@ Vue.use(Vuex)
 export default({
   state: {
       cargando: false,
-      urlBase: 'http://192.168.84.37/Cocoshop/'
+      urlBase: 'http://localhost/Cocoshop/'
   },
   mutations: {
       setCargando (state, value) {

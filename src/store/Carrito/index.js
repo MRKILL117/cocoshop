@@ -72,6 +72,8 @@ export default({
             console.log(response.data)
             if (data.status.includes('OK')) {
                 alert('Todos los productos fueron comprados exitosamente')
+                commit('removeAll')
+                usuario.saldo -= totalPrecio
             } else {
                 console.log ("Los siguientes productos no pudieron ser comprados: ", data.prodError)
                 alert("hubo un error en la compra de los articulos")

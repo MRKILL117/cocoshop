@@ -153,10 +153,19 @@ export default {
         addSaldo () {
             let saldo = prompt('Nuevo saldo')
             let saldoF = parseFloat(saldo)
-            if (saldoF < 1) {
+            if (saldo == ''){
+                alert("Saldo vacío")
+            }
+            else if (saldo == null){
+                return
+            }
+            else if (saldoF < 1) {
                 alert("No se puede ingresar saldo negativo")
             } else {
-                let saldoAnt = parseFloat(this.userData.saldo)
+                let saldoAnt = 0
+                if (this.userData.saldo!=null){
+                    saldoAnt = parseFloat(this.userData.saldo)
+                }
                 let saldoFinal = saldoF + saldoAnt
                 console.log(saldoF)
                 console.log(saldoFinal)

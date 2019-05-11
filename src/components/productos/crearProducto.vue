@@ -101,7 +101,10 @@ export default {
     },
     methods: {
         crearProducto ($event) {
-            if (this.title.length < 1 && this.description.length < 1 && this.creator.length < 1 &&
+            if (this.stock<0){
+                alert("El stock no puede ser negativo")
+            }
+            else if (this.title.length < 1 && this.description.length < 1 && this.creator.length < 1 &&
                 this.stock.length < 1 && this.category.length < 1) {
                     alert('Fill all the text fields')
             } else {

@@ -167,6 +167,8 @@ export default {
             }
             else if (saldoF < 0) {
                 alert("No se puede ingresar saldo negativo")
+            }else if(isNaN(saldoF)){
+                alert("No es un número")
             } else {
                 let saldoAnt = 0
                 if (this.userData.saldo!=null){

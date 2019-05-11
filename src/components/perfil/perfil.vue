@@ -142,6 +142,9 @@ export default {
         goToRoute (route) {
             this.$router.push('/' + route)
         },
+        getURL(item){
+            return 'http://localhost/cocoshop/productos/' + item.idProducto + '/' + 1 + '.jpg'
+        },
         removeCompra (idCompra) {
             let des = confirm("Estas seguro que deseas realizar esta accion?")
             if (!des)

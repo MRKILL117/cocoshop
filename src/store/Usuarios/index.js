@@ -51,7 +51,6 @@ export default({
         formData.set('estado', user.estado)
         formData.set('ciudad', user.ciudad)
         formData.set('codigoPostal', user.codigoPostal)
-
         axios.post(urlBase + 'conexiones/usuarios/registerUser.php', formData).then(response => {
           console.log("creacion usuario exitosamente", response)
           console.log("Respuesta de php", response)
@@ -139,9 +138,10 @@ export default({
     },
     logOut(){
       firebase.auth().signOut().then(function() {
-        window.location.reload()
         router.push("/")
+        window.location.reload()        
         console.log("Cierre de sesión exitoso")
+
       }).catch(function(error) {
         console.log("Error en cierre de sesión")
       });      
@@ -174,7 +174,6 @@ export default({
       let formData = new FormData ()
       formData.set('idUsuario', usuario.idUsuario)
       console.log(usuario.idUsuario)
-
       axios.post(urlBase + 'conexiones/usuarios/getHistory.php', formData).then(response => {
         console.log(response)
         commit('setHistory', response.data.history)

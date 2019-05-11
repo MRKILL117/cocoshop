@@ -59,9 +59,9 @@
                     id="id"
                 ></v-text-field>
                 <v-text-field
-                    label="Price"
-                    :rules="[rules.required]"
-                    box solo number clearable
+                    label="Price" clearable
+                    :rules="[rules.required]"                    
+                    box solo type="number"
                     v-model="precio"
                     id="id"
                 ></v-text-field>
@@ -103,6 +103,8 @@ export default {
         crearProducto ($event) {
             if(this.stock<0 || this.precio<0){
                 alert('Favor de no ingresar numeros negativos')
+            }else if(isNaN(this.precio)){
+                alert('Favor de ingresar números')
             }else{
                 if (this.title.length < 1 && this.description.length < 1 && this.creator.length < 1 &&
                     this.stock.length < 1 && this.category.length < 1) {

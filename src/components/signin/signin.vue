@@ -52,7 +52,7 @@
                 v-model="user.c_password"
               ></v-text-field>
               <v-text-field
-                label="Telefono"
+                label="Teléfono"
                 box
                 type="number"
                 prepend-inner-icon="call"
@@ -60,35 +60,38 @@
                 v-model="user.telefono"
               ></v-text-field>
               <v-text-field
-                label="Direccion"
+                label="Dirección"
                 box
                 prepend-inner-icon="home"
                 maxlength="200"
                 v-model="user.direccion"
               ></v-text-field>
               <v-text-field
-                label="pais"
+                label="País"
                 box
                 prepend-inner-icon="room"
                 maxlength="200"
-                v-model="user.pais"
+                :readonly="true"
+                value = "México"
+                
               ></v-text-field>
-              <v-text-field
-                label="estado"
+              <v-select
+                :items = "estados"
+                label="Estado"                
                 box
                 prepend-inner-icon="filter_hdr"
                 maxlength="200"
                 v-model="user.estado"
-              ></v-text-field>
+              ></v-select>
               <v-text-field
-                label="ciudad"
+                label="Ciudad"
                 box
                 prepend-inner-icon="location_city"
                 maxlength="200"
                 v-model="user.ciudad"
               ></v-text-field>
               <v-text-field
-                label="cp"
+                label="CP"
                 box
                 type="number"
                 prepend-inner-icon="markunread_mailbox"
@@ -122,8 +125,43 @@ export default {
         c_password: "",
         codigoPostal: "",
         ciudad: "",
-        estado: ""
-      }
+        estado: "",
+        pais: "México"
+      },
+      estados: [
+        'CDMX',
+        'Aguascalientes',
+        'Baja California Norte',
+        'Baja California Sur',
+        'Campeche',
+        'Chiapas',
+        'Chihuahua',
+        'Coahuila',
+        'Colima',
+        'Durango',
+        'Estado de México',
+        'Guanajuato',
+        'Guerrero',
+        'Hidalgo',
+        'JALISCO',
+        'Michoacán',
+        'Morelos',
+        'Nayarit',
+        'Nuevo León',
+        'Oaxaca',
+        'Puebla',
+        'Querétaro',
+        'Quintana Roo',
+        'San Luis Potosí',
+        'Sinaloa',
+        'Sonora',
+        'Tabasco',
+        'Tamaulipas',
+        'Tlaxcala',
+        'Veracruz',
+        'Yucatán',
+        'Zacatecas'
+      ]    
     };
   },
   methods: {

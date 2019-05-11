@@ -57,7 +57,7 @@ export default({
         }).catch(error => {
           console.log("Creacion de usuario fallido MYSQL", error)
         })
-
+        router.push("/")
       }).catch(error => {
         console.log("Creacion de usuario fallido", error)
       })

@@ -141,7 +141,7 @@ export default({
                   let auxUrls = []
                   for(let i = 1; i <= newProducto.imagenes.length; i++) {
                       auxUrls.push({
-                          src: urlBaes + 'productos/' + id + '/' + i + '.jpg'
+                          src: urlBase + 'productos/' + id + '/' + i + '.jpg'
                           })
                    }
                    
@@ -162,9 +162,12 @@ export default({
               }
 
               console.log(response.data)
+          alert("Producto agregado")
           }).catch(error => {
               commit('setCargando', false)
               commit('setStatus', "Not Uploaded")
+              alert("Error al agregar producto")
+              console.log(error)
           }) 
       },
       cargarProductos ({commit, getters}) {

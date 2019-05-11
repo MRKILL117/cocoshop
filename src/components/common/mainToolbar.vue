@@ -165,7 +165,7 @@ export default {
             else if (saldo == null){
                 return
             }
-            else if (saldoF < 1) {
+            else if (saldoF < 0) {
                 alert("No se puede ingresar saldo negativo")
             } else {
                 let saldoAnt = 0

@@ -6,6 +6,7 @@ import SigninComponent from "./components/signin/signin.vue";
 import MainProductos from "./components/productos/mainProductos.vue";
 import perfil from "./components/perfil/perfil.vue";
 import editPerfil from "./components/perfil/editPerfil.vue";
+import Tests from "./components/tests/tests.vue"
 
 Vue.use(Router);
 
@@ -37,6 +38,11 @@ export default new Router({
       path: "/editPerfil",
       name: "Editar Perfil",
       component: editPerfil
+    },
+    {
+      path: "/test",
+      name: "Test",
+      component: Tests
     },
   ]
 });

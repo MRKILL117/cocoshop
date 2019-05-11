@@ -9,10 +9,16 @@
         <v-spacer></v-spacer>
 
         <v-layout row wrap>
-        <v-flex xs12 md12>
-            <v-autocomplete  flat :items="Array.from(categorias)" v-model="categoria" @change="setCategoria"
+        <v-flex xs12 md3>
+            <v-autocomplete flat :items="Array.from(categorias)" v-model="categoria" @change="setCategoria"
             class="mt-2" solo background-color="blue-grey lighten-3"
             placeholder="Categories" prepend-inner-icon="category">
+            </v-autocomplete>
+        </v-flex>
+        <v-flex xs12 md9>
+            <v-autocomplete flat :items="productosFiltrados" item-text="titulo"
+            class="mt-2" solo background-color="blue-grey lighten-3" placeholder="Search"
+            prepend-inner-icon="search">
             </v-autocomplete>
         </v-flex>
         </v-layout>

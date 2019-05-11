@@ -163,6 +163,7 @@ export default({
 
               console.log(response.data)
           alert("Producto agregado")
+          window.location.reload()
           }).catch(error => {
               commit('setCargando', false)
               commit('setStatus', "Not Uploaded")

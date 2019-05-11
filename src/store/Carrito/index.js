@@ -32,7 +32,7 @@ export default({
         let ids = new Set()
         let cantidad = 0
         let totalCant = 0
-        let totalPrecio = 0
+        let totalPrecio = 0.0
         let newProductos = []
         // Añadir ids al arreglo unico
         productos.forEach(element => {

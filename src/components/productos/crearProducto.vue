@@ -127,6 +127,7 @@ export default {
                         categoria: this.category,
                     }
                     this.$store.dispatch('crearProducto', newProduct)
+                    this.$router.push('/')
                 }
             }
         },

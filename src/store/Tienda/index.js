@@ -162,9 +162,13 @@ export default({
               }
 
               console.log(response.data)
+          alert("Producto agregado")
+          window.location.reload()
           }).catch(error => {
               commit('setCargando', false)
               commit('setStatus', "Not Uploaded")
+              alert("Error al agregar producto")
+              console.log(error)
           }) 
       },
       cargarProductos ({commit, getters}) {

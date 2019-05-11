@@ -100,8 +100,13 @@ export default {
             this.$store.commit('removeAll')
         },
         comprar () {
-            
-            this.$store.dispatch('comprar')
+            let comprar = confirm("¿Estas seguro?")
+            if (comprar) {
+                this.$store.dispatch('comprar')
+            }
+            else {
+                return
+            }
         }
     }
 }

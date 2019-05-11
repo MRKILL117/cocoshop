@@ -141,7 +141,7 @@ export default({
                   let auxUrls = []
                   for(let i = 1; i <= newProducto.imagenes.length; i++) {
                       auxUrls.push({
-                          src: urlBaes + 'productos/' + id + '/' + i + '.jpg'
+                          src: urlBase + 'productos/' + id + '/' + i + '.jpg'
                           })
                    }
                    

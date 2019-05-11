@@ -75,8 +75,7 @@ export default({
                 commit('removeAll')
                 usuario.saldo -= totalPrecio
             } else {
-                console.log ("Los siguientes productos no pudieron ser comprados: ", data.prodError)
-                alert("hubo un error en la compra de los articulos")
+                alert("Los siguientes productos no pudieron ser comprados: ", data.prodError)
             }
         }).catch(error => {
             console.log(error)

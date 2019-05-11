@@ -9,8 +9,8 @@
         <v-spacer></v-spacer>
 
         <v-layout row wrap>
-        <v-flex xs12 md12>
-            <v-autocomplete  flat :items="Array.from(categorias)" v-model="categoria" @change="setCategoria"
+        <v-flex xs12 md3>
+            <v-autocomplete flat :items="Array.from(categorias)" v-model="categoria" @change="setCategoria"
             class="mt-2" solo background-color="blue-grey lighten-3"
             placeholder="Categories" prepend-inner-icon="category">
             </v-autocomplete>
@@ -85,7 +85,6 @@ export default {
     },
     computed: {
         ...mapGetters({
-
             userData: 'getUserData',
             categorias: 'getCategorias'
         }),
@@ -94,14 +93,6 @@ export default {
         },
         isAdmin () {
             return this.userData.nombretipodeusuario == 'Administrador'
-        },
-        categorias () {
-            let categs = this.$store.getters.getCategorias
-            if (categs.length > 0)
-                return categs
-            else {
-                return []
-            }
         },
         // categorias () {
         //     let categs = this.$store.getters.getCategorias
@@ -168,10 +159,21 @@ export default {
         addSaldo () {
             let saldo = prompt('Nuevo saldo')
             let saldoF = parseFloat(saldo)
-            if (saldoF < 1) {
+            if (saldo == ''){
+                alert("Saldo vacío")
+            }
+            else if (saldo == null){
+                return
+            }
+            else if (saldoF < 0) {
                 alert("No se puede ingresar saldo negativo")
+            }else if(isNaN(saldoF)){
+                alert("No es un número")
             } else {
-                let saldoAnt = parseFloat(this.userData.saldo)
+                let saldoAnt = 0
+                if (this.userData.saldo!=null){
+                    saldoAnt = parseFloat(this.userData.saldo)
+                }
                 let saldoFinal = saldoF + saldoAnt
                 console.log(saldoF)
                 console.log(saldoFinal)

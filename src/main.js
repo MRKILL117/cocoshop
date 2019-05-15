@@ -3,6 +3,7 @@ import "./plugins/vuetify";
 import App from "./App.vue";
 import router from "./router";
 import { store } from "./store/index.js";
+import { mapGetters } from 'vuex'
 import * as firebase from "firebase";
 
 import Producto from "./components/productos/producto.vue";
@@ -36,13 +37,71 @@ new Vue({
   router,
   store,
   render: h => h(App),
+  data: {
+    return: {
+      storedToken: 'HOLA',
+    }
+  },
+  // Se añaden computed 
+  computed: {
+    ...mapGetters({
+        userData: 'getUserData',
+        sessionToken: 'getSessionToken'
+    }),
+  },
+  watch: {
+    sessionToken: {
+      handler: function(newVal, oldVal) {
+        console.log('En el watch', newVal, oldVal)
+          if (newVal && oldVal) {
+            if (newVal !== oldVal) {
+              alert('Se cerro la sesion!!!!')
+              this.$store.dispatch('logOut')
+            } else {
+            }
+          } else if (newVal) {
+            let token;
+            if (localStorage.getItem("sesionToken")) {
+              token = localStorage.getItem("sesionToken")
+            }
+            console.log("Alguno es null")
+          }
+      },
+      deep: true,
+      immediate: true
+    }
+  },
   created(){
     store.dispatch('cargarProductos')
     firebase.auth().onAuthStateChanged((user)=> {
       if (user) {
         this.$store.dispatch('autoLogIn', user)
+        //this.$store.dispatch('loadSessionToken', user)
       }
-    })    
-  }
+    })
+  },
+  methods: {
+    registarToken (uid) {
+      let token = this.generateToken()
+      firebase.database().ref('sesiones/' + uid + "/").set({token: token}).then(response => {
+        console.log("Registro de sesion response: ", response)
+        // Guardarla en el localStorage
+        localStorage.setItem("sesionToken", token)
+      }).catch(error => {
+        console.log("Registro de sesion error: ", error)
+      })
+      console.log("Fin de registro")
+    },
+    generateToken() {
+        let n = 20
+        var chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        var token = '';
+        for(var i = 0; i < n; i++) {
+            token += chars[Math.floor(Math.random() * chars.length)];
+        }
+        console.log("Token generado:", token)
+        return token;
+    },
+  },
 }).$mount("#app");
 //Comentario perrón

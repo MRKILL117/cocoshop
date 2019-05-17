@@ -8,6 +8,8 @@ import perfil from "./components/perfil/perfil.vue";
 import editPerfil from "./components/perfil/editPerfil.vue";
 import Tests from "./components/tests/tests.vue"
 
+import AuthGuard from './auth-guard'
+
 Vue.use(Router);
 
 export default new Router({
@@ -32,12 +34,14 @@ export default new Router({
     {
       path: "/perfil",
       name: "Perfil",
-      component: perfil
+      component: perfil,
+      beforeEnter: AuthGuard
     },
     {
       path: "/editPerfil",
       name: "Editar Perfil",
-      component: editPerfil
+      component: editPerfil,
+      beforeEnter: AuthGuard
     },
     {
       path: "/test",

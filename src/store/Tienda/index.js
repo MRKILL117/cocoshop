@@ -119,59 +119,78 @@ export default({
   },
   actions: {
       crearProducto ({commit}, newProducto) {
-          commit('setCargando', true)
-          let formData = new FormData ()
-          formData.set('titulo', newProducto.titulo)
-          formData.set('descripcion', newProducto.descripcion)
-          formData.set('creador', newProducto.creador)
-          formData.set('stock', newProducto.stock)
-          formData.set('categoria', newProducto.categoria)
-          formData.set('precio', newProducto.precio)
-          formData.set('nFotos', newProducto.imagenes.length)
-          formData.set('imagenes', JSON.stringify(newProducto.imagenes))
-          
-          axios.post('http://localhost/cocoshop/conexiones/productos/crearProducto.php', formData).then(response => {
-              commit('setCargando', false)
-              let data = response.data
-              if (data.status.includes('OK')){
-                  commit('setStatus', "Uploaded")
-                  let id = data.id
-                  // Auxiliar para guardar las url generadas
-                  let auxUrls = []
-                  for(let i = 1; i <= newProducto.imagenes.length; i++) {
-                      auxUrls.push({
-                          src: 'http://localhost/cocoshop/productos/' + id + '/' + i + '.jpg'
-                          })
-                   }
-                   
-                   let aux = {
-                       id: id,
-                       titulo: newProducto.titulo,
-                       autor: newProducto.creador,
-                       stock: newProducto.stock,
-                       precio: newProducto.precio,
-                       descripcion: newProducto.descripcion,
-                       categoria: newProducto.categoria,
-                       imagenes: auxUrls,
-                    }
-                    commit('addCategoria', newProducto.categoria)
-                    commit('addProducto', aux)
-              } else {
-                  commit('setStatus', "Not Uploaded")
-              }
+          let updatedProduct = {
+              cantidad: Number(newProducto.stock),
+              categoria: newProducto.categoria,
+              creadorDelObjeto: newProducto.creador,
+              descripcion: newProducto.descripcion,
+              idProducto: 0,
+              imagen: "algo",
+              nombreProducto: newProducto.titulo,
+              numeroElemento: newProducto.imagenes.length,
+              precio: Number(newProducto.precio)
+          }
+          console.log("New producto", updatedProduct)
+          // Registrar el producto en la base de datos
+          axios.post('http://localhost:8080/WebApplication7/webresources/entity.productos', updatedProduct, {headers: {'Content-Type': 'application/json' }}).then(response => {
+              commit('setCargando', true)
+              let formData = new FormData ()
+              formData.set('nFotos', newProducto.imagenes.length)
+              formData.set('imagenes', JSON.stringify(newProducto.imagenes))
+              // Esta peticion al php es solo para guardar imagenes ya que con el web service no se como se haga xd
+              /*
+                AUN NO GUARDA IMAGENES
+                HAY QUE CONSEGUIR LA ID DEL ULTIMO ELEMENTO INGRESADO A LA BASE DESDE EL WEB SERVICE Y PASARLO
+                AL PHP PARA QUE PUEDA CREAR LA CARPETA CON LA ID DEL PRODUCTO Y ADENTRO PONER LAS IMAGENES
+              */
+              formData.set('id', updatedProduct.id)
+              axios.post('http://localhost/cocoshop/conexiones/productos/crearProducto.php', formData).then(response => {
+                  commit('setCargando', false)
+                  let data = response.data
+                  if (data.status.includes('OK')){
+                      commit('setStatus', "Uploaded")
+                      let id = data.id
+                      // Auxiliar para guardar las url generadas
+                      let auxUrls = []
+                      for(let i = 1; i <= newProducto.imagenes.length; i++) {
+                          auxUrls.push({
+                              src: 'http://localhost/cocoshop/productos/' + id + '/' + i + '.jpg'
+                              })
+                      }
+                      
+                      let aux = {
+                          id: id,
+                          titulo: newProducto.titulo,
+                          autor: newProducto.creador,
+                          stock: newProducto.stock,
+                          precio: newProducto.precio,
+                          descripcion: newProducto.descripcion,
+                          categoria: newProducto.categoria,
+                          imagenes: auxUrls,
+                          }
+                          commit('addCategoria', newProducto.categoria)
+                          commit('addProducto', aux) 
+                  } else {
+                      commit('setStatus', "Not Uploaded")
+                  }
+                  console.log(response.data)
+                }).catch(error => {
+                    commit('setCargando', false)
+                    commit('setStatus', "Not Uploaded")
+                }) 
 
-              console.log(response.data)
-          }).catch(error => {
-              commit('setCargando', false)
-              commit('setStatus', "Not Uploaded")
-          }) 
+                console.log(response.data)
+            }).catch(error => {
+                commit('setCargando', false)
+                commit('setStatus', "Not Uploaded")
+            })           
       },
       cargarProductos ({commit}) {
-          axios.post('http://localhost/cocoshop/conexiones/productos/getAllProductos.php').then(response => {
+          axios.get('http://localhost:8080/WebApplication7/webresources/entity.productos').then(response => {
               let data = response.data
-              if (data.status.includes('OK')) {
+              if (1) {
                   let newProductos = []
-                  data.productos.forEach(producto => {
+                  data.forEach(producto => {
                       // Generar la url de las imagenes
                       /*La base almacena la cantidad de imagenes que tiene un objeto por lo que
                       en la carpeta productos/idDelProducto/ hay n imagenes asi que se obtiene
@@ -206,19 +225,29 @@ export default({
           })
       },
       editarProducto ({commit}, newProducto) {
+          // PARA ACTUALIZAR UN ELEMENTO USANDO UN WEBSERVICE REST: 
+          /* SE DEBE MANDAR UNA PETICION PUT COLOCANDO AL FINAL DE LA URL EL
+          ID DEL OBJETO QUE SE VA A MODIFICAR Y EN EL CUERPO DE LA PETICION
+          VA EL OBJETO COMPLETO A INGRESAR
+          e.j http://localhost:8080/WebApplication7/webresources/entity.productos/14 <- se modifica el 
+          objeto con id = 14 */
+
           commit('setCargando', true)
-          let formData = new FormData ()
-          formData.set('id', newProducto.id)
-          formData.set('titulo', newProducto.titulo)
-          formData.set('descripcion', newProducto.descripcion)
-          formData.set('creador', newProducto.creador)
-          formData.set('stock', newProducto.stock)
-          formData.set('categoria', newProducto.categoria)
-          formData.set('precio', newProducto.precio)
-          formData.set('nFotos', newProducto.imagenes.length)
-          formData.set('imagenes', JSON.stringify(newProducto.imagenes))
           
-          axios.post('http://localhost/cocoshop/conexiones/productos/editarProducto.php', formData).then(response => {
+          let updatedProduct = {
+              cantidad: Number(newProducto.stock),
+              categoria: newProducto.categoria,
+              creadorDelObjeto: newProducto.creador,
+              descripcion: newProducto.descripcion,
+              idProducto: Number(newProducto.id),
+              imagen: "algo",
+              nombreProducto: newProducto.titulo,
+              numeroElemento: 2,
+              precio: Number(newProducto.precio)
+          }
+
+          console.log("El cuerpo", newProducto)
+          axios.put('http://localhost:8080/WebApplication7/webresources/entity.productos/' + newProducto.id, updatedProduct, {headers: {"Content-Type": "application/json"}}).then(response => {
               let data = response.data
               if (data.status.includes('OK')) {
                   commit('setStatus', "Uploaded")
@@ -254,11 +283,8 @@ export default({
       },
       eliminarProducto ({commit}, id) {
           commit('setCargando', true)
-          let formData = new FormData ()
-          formData.set('id', id)
-        //   commit('deleteProducto', id)
           
-          axios.post('http://localhost/cocoshop/conexiones/productos/eliminarProducto.php', formData).then(response => {
+          axios.delete('http://localhost:8080/WebApplication7/webresources/entity.productos/' + id).then(response => {
               let data = response.data
               if (data.status.includes('OK')) {
                   commit('setStatus', "Deleted")

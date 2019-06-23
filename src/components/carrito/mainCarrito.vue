@@ -77,7 +77,7 @@ export default {
         precioTotal () {
             let sum = 0
             this.productos.forEach(productos => {
-                let auxPrecio = productos.precio
+                let auxPrecio = productos.precio.toString(10)
                 // El precio a veces tiene comas asi que ps se la quitamos
                 auxPrecio = auxPrecio.replace(',','')
                 sum += parseFloat(auxPrecio)

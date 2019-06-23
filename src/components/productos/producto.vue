@@ -111,7 +111,7 @@ export default {
             type: String
         },
         precio: {
-            type: String
+            type: Number
         },
         url: {
             type: String
@@ -130,7 +130,7 @@ export default {
             type: Number
         },
         id: {
-            type: String
+            type: Number
         },
         categoria: {
             type: String

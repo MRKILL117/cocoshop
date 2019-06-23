@@ -5,6 +5,7 @@ import router from "./router";
 import { store } from "./store/index.js";
 import { mapGetters } from 'vuex'
 import * as firebase from "firebase";
+import axios from 'axios';
 
 import Producto from "./components/productos/producto.vue";
 import Toolbar from "./components/common/mainToolbar.vue";
@@ -79,6 +80,18 @@ new Vue({
         //this.$store.dispatch('loadSessionToken', user)
       }
     })
+
+    // Prueba de conexion al webservice
+    /* Extension para Chrome en caso de error CORS
+      https://chrome.google.com/webstore/detail/moesif-orign-cors-changer/digfbfaphojjndkpccljibejjbppifbc
+      Enablear para que no tire el error xd
+    */
+    
+    /*axios.get('http://localhost:8080/WebApplication7/webresources/entity.productos').then(response => {
+      console.log("Response del webservice", response)
+    }).catch(error => {
+      console.log(error)
+    })*/
   },
   methods: {
     registarToken (uid) {

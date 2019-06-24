@@ -62,7 +62,39 @@ export default({
             alert('No tienes suficiente saldo')
             return
         }
-        axios.post('http://localhost/Cocoshop/conexiones/productos/comprar.php', formData).then(response => {
+
+        let status = {
+            descripcionCategoria: "Sólo hace falta que hagas click en procesar",
+            idCategoria: true,
+            nombreCategoria: "Activo"
+        }
+
+        // Conseguir los datos del usuario
+        axios.get('http://localhost:8080/WebApplication7/webresources/entity.usuarios/' + idUsuario).then(response => {
+            console.log("response del usuario", response.data)
+            // Crear la fila de la compra en la base de datos con los datos del usuario y el status 
+            let body = {
+                estatus: {
+                    descripcionCategoria: "Sólo hace falta que hagas click en procesar",
+                    idCategoria: true,
+                    nombreCategoria: "Activo"
+                },
+                idUsuario: {...response.data}
+            }
+            console.log("el body de compra", body)
+            axios.post('http://localhost:8080/WebApplication7/webresources/entity.compra', body, {headers: {"Content-Type": "application/json"}}).then(response => {
+                console.log("Compra log", response)
+                // Actualizar el saldo del usuario
+                newUsuario = {...response.data}
+                newUsuario.saldo -= totalCant
+                axios.put('http://localhost:8080/WebApplication7/webresources/entity.usuarios/' + idUsuario, newUsuario, {headers: {"Content-Type": "application/json"}}).then(response => {
+                    console.log("Saldo actualizado")
+                })
+                // Actualizar el stock
+            })
+        })
+
+        /*axios.post('http://localhost/Cocoshop/conexiones/productos/comprar.php', formData).then(response => {
             console.log("comprado", response.data)
             let data = response.data
             if (data.status.includes('OK')) {
@@ -72,7 +104,7 @@ export default({
             }
         }).catch(error => {
             console.log(error)
-        })
+        })*/
       }
   },
   getters: {

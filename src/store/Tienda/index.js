@@ -143,41 +143,46 @@ export default({
                 HAY QUE CONSEGUIR LA ID DEL ULTIMO ELEMENTO INGRESADO A LA BASE DESDE EL WEB SERVICE Y PASARLO
                 AL PHP PARA QUE PUEDA CREAR LA CARPETA CON LA ID DEL PRODUCTO Y ADENTRO PONER LAS IMAGENES
               */
-              formData.set('id', updatedProduct.id)
-              axios.post('http://localhost/cocoshop/conexiones/productos/crearProducto.php', formData).then(response => {
-                  commit('setCargando', false)
-                  let data = response.data
-                  if (data.status.includes('OK')){
-                      commit('setStatus', "Uploaded")
-                      let id = data.id
-                      // Auxiliar para guardar las url generadas
-                      let auxUrls = []
-                      for(let i = 1; i <= newProducto.imagenes.length; i++) {
-                          auxUrls.push({
-                              src: 'http://localhost/cocoshop/productos/' + id + '/' + i + '.jpg'
-                              })
-                      }
-                      
-                      let aux = {
-                          id: id,
-                          titulo: newProducto.titulo,
-                          autor: newProducto.creador,
-                          stock: newProducto.stock,
-                          precio: newProducto.precio,
-                          descripcion: newProducto.descripcion,
-                          categoria: newProducto.categoria,
-                          imagenes: auxUrls,
+              // Conseguir la ID con la funcion que hizo emilio
+              axios.get('http://localhost:8080/WebApplication7/webresources/entity.productos/lastId').then(response => {
+                  formData.set('id', response.data)
+                  // PHP modificado para que solo guarde las imagenes, no registra nada en la base de datos
+                  axios.post('http://localhost/cocoshop/conexiones/productos/crearProducto.php', formData).then(response => {
+                      commit('setCargando', false)
+                      let data = response.data
+                      if (data.status.includes('OK')){
+                          commit('setStatus', "Uploaded")
+                          let id = data.id
+                          // Auxiliar para guardar las url generadas
+                          let auxUrls = []
+                          for(let i = 1; i <= newProducto.imagenes.length; i++) {
+                              auxUrls.push({
+                                  src: 'http://localhost/cocoshop/productos/' + id + '/' + i + '.jpg'
+                                  })
                           }
-                          commit('addCategoria', newProducto.categoria)
-                          commit('addProducto', aux) 
-                  } else {
-                      commit('setStatus', "Not Uploaded")
-                  }
-                  console.log(response.data)
-                }).catch(error => {
-                    commit('setCargando', false)
-                    commit('setStatus', "Not Uploaded")
-                }) 
+                          
+                          let aux = {
+                              id: id,
+                              titulo: newProducto.titulo,
+                              autor: newProducto.creador,
+                              stock: newProducto.stock,
+                              precio: newProducto.precio,
+                              descripcion: newProducto.descripcion,
+                              categoria: newProducto.categoria,
+                              imagenes: auxUrls,
+                              }
+                              commit('addCategoria', newProducto.categoria)
+                              commit('addProducto', aux) 
+                      } else {
+                          commit('setStatus', "Not Uploaded")
+                      }
+                      console.log(response.data)
+                      }).catch(error => {
+                          commit('setCargando', false)
+                          commit('setStatus', "Not Uploaded")
+                      }) 
+              })
+              
 
                 console.log(response.data)
             }).catch(error => {
